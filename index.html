@@ -998,7 +998,7 @@ const TOOLS = [
     desc: '全 GUI 可视化的 OpenClaw，司内开源，支持 Mac 本地或远端部署，已支持 Gemini 3 Pro 模型。',
     fullDesc: '掌握（QQBot x OpenClaw）是全 GUI 可视化的 OpenClaw 内网版本，司内开源可申请内测。相比标准 OpenClaw 无需命令行操作，适合非技术背景的运营同学。内测期间模型配额充足，支持到 Gemini 3 Pro。扫码进群申请即可使用。',
     links: [
-      { label: 'KM 龙虾图鉴（含申请方式）', url: 'https://km.woa.com/articles/show/655461', icon: '📖', primary: true }
+      { label: '📖 查看申请方式', url: 'https://km.woa.com/articles/show/655461', icon: '📖', primary: true }
     ],
     tip: '💡 掌握 是专为非技术用户设计的龙虾版本，全鼠标操作，是从 Knot 升级到"自己部署龙虾"的最佳跳板。'
   },
@@ -1070,7 +1070,7 @@ const TOOLS = [
     desc: '腾讯自研大语言模型，多模态能力全面，已集成腾讯文档、会议等产品，涉密内容优先使用。',
     fullDesc: '腾讯混元是司内基础大模型，已集成到腾讯文档 AI、腾讯会议 AI 小助手、Knot 等产品中。直接访问混元官网可对话使用。涉及腾讯内部业务信息时，优先使用混元等司内模型，保障数据安全合规。',
     links: [
-      { label: '🚀 立即打开', url: 'https://hunyuan.tencent.com', icon: '🌀', primary: true }
+      { label: '🚀 立即打开', url: 'https://hunyuan.woa.com', icon: '🌀', primary: true }
     ],
     tip: '💡 【重要】涉及内部数据、商业策略等敏感信息时，必须使用混元等司内模型，不要发给外部 AI。'
   },
@@ -1327,7 +1327,7 @@ const TOOLS = [
     desc: '数字人播报、AI 配音、文字转视频，腾讯出品，批量生产标准化视频内容的专属工具。',
     fullDesc: '腾讯智影专注 AI 视频创作：数字人（可定制形象克隆）、AI 配音（多音色和方言）、文字转视频、智能去水印、视频翻译。适合批量生产标准化介绍视频、赛事解说视频等。',
     links: [
-      { label: '🚀 立即打开', url: 'https://zenvideo.qq.com', icon: '👤', primary: true }
+      { label: '🚀 立即打开', url: 'https://zenvideo.woa.com', icon: '👤', primary: true }
     ],
     tip: '💡 智影数字人可以克隆真实人像，适合制作需要"真人出镜"的游戏发布公告、版本更新介绍视频。'
   },
@@ -1386,7 +1386,7 @@ const TOOLS = [
         </div>
         <div class="card-desc">${hl(tool.desc, q)}</div>
         <div class="card-actions">
-          <a class="card-btn btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🚀 立即打开</a>
+          <a class="card-btn btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${tool.links[0].label}</a>
           <button class="card-btn" onclick="event.stopPropagation(); showModal('${tool.id}')">详情 →</button>
         </div>
       </div>`;
