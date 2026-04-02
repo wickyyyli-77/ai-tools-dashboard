@@ -2,11 +2,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI 工具地图 · 内容运营专版</title>
+<title>AI 工具图鉴 · 内容运营专版</title>
 <style>
 :root {
   --white: #ffffff;
@@ -83,118 +80,6 @@ button { font-family: var(--font); border: none; cursor: pointer; background: no
   font-size: 10px; font-weight: 700; cursor: pointer;
 }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-
-/* ══ 登录用户信息 ══ */
-.nav-user {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 4px 10px 4px 4px; border-radius: 20px;
-  border: 1.5px solid var(--gray-200);
-  background: var(--white); cursor: pointer;
-  transition: all var(--transition); position: relative;
-  font-size: 13px; font-weight: 600; color: var(--gray-700);
-}
-.nav-user:hover { border-color: var(--gray-300); background: var(--gray-50); box-shadow: var(--shadow); }
-.nav-user-avatar {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
-  overflow: hidden;
-}
-.nav-user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.nav-user-name { max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nav-user-dropdown {
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: var(--white); border: 1.5px solid var(--gray-200);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  min-width: 140px; overflow: hidden; z-index: 500;
-  display: none;
-}
-.nav-user-dropdown.open { display: block; }
-.nav-user-dropdown-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px; font-size: 13px; color: var(--gray-700);
-  cursor: pointer; transition: background var(--transition);
-}
-.nav-user-dropdown-item:hover { background: var(--gray-50); }
-.nav-user-dropdown-item.danger { color: #ef4444; }
-.nav-user-dropdown-item.danger:hover { background: #fff1f2; }
-
-/* 登录按钮（未登录态） */
-.nav-login-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; font-weight: 600;
-  padding: 6px 14px; border-radius: 20px;
-  border: 1.5px solid var(--gray-200);
-  color: var(--gray-600); background: var(--white);
-  cursor: pointer; transition: all var(--transition);
-  white-space: nowrap;
-}
-.nav-login-btn:hover { border-color: var(--orange-500); color: var(--orange-600); background: var(--orange-50); }
-
-/* ══ 登录弹窗 ══ */
-.login-overlay {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(17,24,39,.45); backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  opacity: 0; pointer-events: none; transition: opacity 220ms ease;
-}
-.login-overlay.open { opacity: 1; pointer-events: all; }
-.login-modal {
-  background: var(--white); border-radius: 20px;
-  box-shadow: 0 24px 80px rgba(0,0,0,.18);
-  width: 100%; max-width: 380px; padding: 36px 32px 28px;
-  transform: scale(.95) translateY(16px); transition: transform 220ms ease;
-  text-align: center;
-}
-.login-overlay.open .login-modal { transform: scale(1) translateY(0); }
-.login-logo {
-  width: 56px; height: 56px; border-radius: 14px;
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; margin: 0 auto 16px; box-shadow: 0 4px 20px rgba(249,115,22,.3);
-}
-.login-title { font-size: 20px; font-weight: 800; color: var(--gray-900); margin-bottom: 6px; letter-spacing: -.01em; }
-.login-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 28px; }
-.login-form { display: flex; flex-direction: column; gap: 12px; text-align: left; }
-.login-input-wrap { position: relative; }
-.login-input-label { font-size: 11.5px; font-weight: 600; color: var(--gray-500); letter-spacing: .04em; margin-bottom: 5px; display: block; text-transform: uppercase; }
-.login-input {
-  width: 100%; height: 42px; border: 1.5px solid var(--gray-200); border-radius: 10px;
-  padding: 0 14px; font-size: 14px; color: var(--gray-900); outline: none;
-  font-family: var(--font); background: var(--gray-50);
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-.login-input:focus { border-color: var(--orange-500); box-shadow: 0 0 0 3px rgba(249,115,22,.12); background: var(--white); }
-.login-input::placeholder { color: var(--gray-400); }
-.login-submit {
-  height: 44px; border-radius: 10px; border: none;
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  color: #fff; font-size: 14.5px; font-weight: 700; font-family: var(--font);
-  cursor: pointer; margin-top: 6px;
-  transition: all var(--transition); letter-spacing: .01em;
-  box-shadow: 0 4px 16px rgba(249,115,22,.35);
-}
-.login-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,.45); }
-.login-submit:active { transform: translateY(0); }
-.login-tips { font-size: 11.5px; color: var(--gray-400); margin-top: 14px; line-height: 1.6; }
-
-/* 深色模式下登录相关样式 */
-[data-theme="dark"] .nav-user { background: var(--glass); border-color: var(--glass-border); color: var(--dm-text); }
-[data-theme="dark"] .nav-user:hover { background: var(--glass-hover); border-color: rgba(255,255,255,.2); }
-[data-theme="dark"] .nav-user-dropdown { background: rgba(10,22,40,.95); border-color: var(--glass-border); backdrop-filter: blur(20px); }
-[data-theme="dark"] .nav-user-dropdown-item { color: var(--dm-text-2); }
-[data-theme="dark"] .nav-user-dropdown-item:hover { background: var(--glass); }
-[data-theme="dark"] .nav-login-btn { background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-2); }
-[data-theme="dark"] .nav-login-btn:hover { border-color: var(--dm-cyan-400); color: var(--dm-cyan-400); background: rgba(34,211,238,.06); }
-[data-theme="dark"] .login-modal { background: rgba(10,22,40,.95); border: 1px solid var(--glass-border); backdrop-filter: blur(30px); }
-[data-theme="dark"] .login-title { color: var(--dm-text); }
-[data-theme="dark"] .login-sub { color: var(--dm-text-3); }
-[data-theme="dark"] .login-input-label { color: var(--dm-text-3); }
-[data-theme="dark"] .login-input { background: var(--glass); border-color: var(--glass-border); color: var(--dm-text); }
-[data-theme="dark"] .login-input:focus { border-color: var(--dm-cyan-400); box-shadow: 0 0 0 3px rgba(34,211,238,.12); }
-[data-theme="dark"] .login-tips { color: var(--dm-text-3); }
-
 .nav-token-btn {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 12.5px; font-weight: 700;
@@ -541,193 +426,6 @@ mark { background: #fef08a; color: var(--gray-900); border-radius: 2px; padding:
   .nav-stat, .nav-token-btn span { display: none; }
   .token-banner { flex-direction: column; align-items: flex-start; }
 }
-
-/* ══ 模式切换按钮 ══ */
-.theme-toggle-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12.5px; font-weight: 600;
-  padding: 6px 13px; border-radius: 20px;
-  border: 1.5px solid var(--gray-200);
-  color: var(--gray-600); background: var(--gray-100);
-  cursor: pointer; transition: all 180ms cubic-bezier(.4,0,.2,1);
-  white-space: nowrap; flex-shrink: 0;
-  user-select: none;
-}
-.theme-toggle-btn:hover { background: var(--gray-200); color: var(--gray-900); }
-.theme-toggle-btn .toggle-icon { font-size: 14px; transition: transform .4s ease; }
-
-/* ══ 深色模式（玻璃拟态）══ */
-[data-theme="dark"] {
-  --bg-start: #050c1f;
-  --bg-mid: #0a1628;
-  --bg-end: #0d1f3c;
-  --glass: rgba(255,255,255,.06);
-  --glass-border: rgba(255,255,255,.12);
-  --glass-hover: rgba(255,255,255,.10);
-  --dm-text: #e8f0fe;
-  --dm-text-2: #a8bbd4;
-  --dm-text-3: #6b8aaa;
-  --dm-blue-400: #60a5fa;
-  --dm-blue-500: #3b82f6;
-  --dm-cyan-400: #22d3ee;
-  --dm-purple-400: #c084fc;
-  --dm-rose-400: #fb7185;
-  --dm-amber-400: #fbbf24;
-  --dm-emerald-400: #34d399;
-}
-[data-theme="dark"] body {
-  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
-  color: var(--dm-text);
-}
-[data-theme="dark"] body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(59,130,246,.12) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 70%, rgba(139,92,246,.10) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(34,211,238,.06) 0%, transparent 60%);
-  pointer-events: none; z-index: 0;
-}
-[data-theme="dark"] .nav {
-  background: rgba(5,12,31,.75);
-  backdrop-filter: blur(24px);
-  border-bottom-color: var(--glass-border);
-}
-[data-theme="dark"] .nav-logo { color: var(--dm-text); }
-[data-theme="dark"] .nav-logo-mark {
-  background: linear-gradient(135deg, var(--dm-blue-500), var(--dm-cyan-400));
-  box-shadow: 0 0 20px rgba(59,130,246,.4);
-}
-[data-theme="dark"] .nav-divider { background: var(--glass-border); }
-[data-theme="dark"] .nav-search input {
-  background: var(--glass);
-  border-color: var(--glass-border);
-  color: var(--dm-text);
-}
-[data-theme="dark"] .nav-search input::placeholder { color: var(--dm-text-3); }
-[data-theme="dark"] .nav-search input:focus { border-color: var(--dm-blue-400); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
-[data-theme="dark"] .nav-stat {
-  background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-3);
-}
-[data-theme="dark"] .nav-token-btn {
-  background: linear-gradient(135deg, rgba(59,130,246,.25), rgba(34,211,238,.25));
-  border: 1px solid rgba(59,130,246,.4); color: var(--dm-blue-400); box-shadow: none;
-}
-[data-theme="dark"] .nav-token-btn:hover {
-  background: linear-gradient(135deg, rgba(59,130,246,.4), rgba(34,211,238,.35));
-  box-shadow: 0 0 20px rgba(59,130,246,.3);
-}
-[data-theme="dark"] .theme-toggle-btn {
-  background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-2);
-}
-[data-theme="dark"] .theme-toggle-btn:hover { background: var(--glass-hover); color: var(--dm-text); }
-[data-theme="dark"] .hero { position: relative; z-index: 1; }
-[data-theme="dark"] .hero h1 { color: var(--dm-text); }
-[data-theme="dark"] .hero h1 em {
-  background: linear-gradient(135deg, var(--dm-blue-400), var(--dm-cyan-400));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-}
-[data-theme="dark"] .hero-eyebrow {
-  color: var(--dm-cyan-400); background: rgba(34,211,238,.08); border-color: rgba(34,211,238,.2);
-}
-[data-theme="dark"] .hero-sub { color: var(--dm-text-2); }
-[data-theme="dark"] .cat-bar-wrap {
-  background: rgba(5,12,31,.82); backdrop-filter: blur(20px); border-bottom-color: var(--glass-border);
-}
-[data-theme="dark"] .cat-btn {
-  background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-2);
-  backdrop-filter: blur(8px);
-}
-[data-theme="dark"] .cat-btn:hover { background: var(--glass-hover); color: var(--dm-text); border-color: rgba(255,255,255,.2); }
-[data-theme="dark"] .cat-btn[data-cat="all"].active { background: linear-gradient(135deg,rgba(59,130,246,.3),rgba(34,211,238,.25)); border-color: var(--dm-blue-400); color: var(--dm-blue-400); box-shadow: 0 0 20px rgba(59,130,246,.2); }
-[data-theme="dark"] .cat-btn[data-cat="c1a"].active { background: linear-gradient(135deg,rgba(251,113,133,.25),rgba(251,113,133,.15)); border-color: var(--dm-rose-400); color: var(--dm-rose-400); box-shadow: 0 0 20px rgba(251,113,133,.2); }
-[data-theme="dark"] .cat-btn[data-cat="c1b"].active { background: linear-gradient(135deg,rgba(96,165,250,.25),rgba(96,165,250,.15)); border-color: var(--dm-blue-400); color: var(--dm-blue-400); box-shadow: 0 0 20px rgba(96,165,250,.2); }
-[data-theme="dark"] .cat-btn[data-cat="c2"].active { background: linear-gradient(135deg,rgba(192,132,252,.25),rgba(192,132,252,.15)); border-color: var(--dm-purple-400); color: var(--dm-purple-400); box-shadow: 0 0 20px rgba(192,132,252,.2); }
-[data-theme="dark"] .cat-btn[data-cat="c3"].active { background: linear-gradient(135deg,rgba(251,191,36,.25),rgba(251,191,36,.15)); border-color: var(--dm-amber-400); color: var(--dm-amber-400); box-shadow: 0 0 20px rgba(251,191,36,.2); }
-[data-theme="dark"] .cat-btn[data-cat="c4"].active { background: linear-gradient(135deg,rgba(52,211,153,.25),rgba(52,211,153,.15)); border-color: var(--dm-emerald-400); color: var(--dm-emerald-400); box-shadow: 0 0 20px rgba(52,211,153,.2); }
-[data-theme="dark"] .cat-btn .cat-count { background: rgba(255,255,255,.08); }
-[data-theme="dark"] .content { position: relative; z-index: 1; }
-[data-theme="dark"] .section-title-block { border-bottom-color: var(--glass-border); }
-[data-theme="dark"] .c1a .section-badge { color: var(--dm-rose-400); border-color: rgba(251,113,133,.25); background: rgba(251,113,133,.08); }
-[data-theme="dark"] .c1b .section-badge { color: var(--dm-blue-400); border-color: rgba(96,165,250,.25); background: rgba(96,165,250,.08); }
-[data-theme="dark"] .c2  .section-badge { color: var(--dm-purple-400); border-color: rgba(192,132,252,.25); background: rgba(192,132,252,.08); }
-[data-theme="dark"] .c3  .section-badge { color: var(--dm-amber-400); border-color: rgba(251,191,36,.25); background: rgba(251,191,36,.08); }
-[data-theme="dark"] .c4  .section-badge { color: var(--dm-emerald-400); border-color: rgba(52,211,153,.25); background: rgba(52,211,153,.08); }
-[data-theme="dark"] .section-sub { color: var(--dm-text-3); }
-[data-theme="dark"] .section-count { background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-3); }
-[data-theme="dark"] .token-banner { background: linear-gradient(135deg,rgba(192,132,252,.08),rgba(59,130,246,.08)); border-color: rgba(192,132,252,.2); backdrop-filter: blur(12px); }
-[data-theme="dark"] .token-banner-title { color: var(--dm-purple-400); }
-[data-theme="dark"] .token-banner-desc { color: var(--dm-text-3); }
-[data-theme="dark"] .token-link-btn { background: rgba(192,132,252,.08); border-color: rgba(192,132,252,.3); color: var(--dm-purple-400); }
-[data-theme="dark"] .token-link-btn:hover { background: rgba(192,132,252,.18); border-color: var(--dm-purple-400); }
-[data-theme="dark"] .token-link-btn.primary { background: rgba(192,132,252,.18); }
-[data-theme="dark"] .tool-card {
-  background: var(--glass);
-  backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-color: var(--glass-border);
-}
-[data-theme="dark"] .tool-card::before {
-  content: ''; position: absolute; inset: 0; border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,.06) 0%, transparent 60%);
-  pointer-events: none; height: auto; opacity: 1;
-}
-[data-theme="dark"] .tool-card:hover {
-  background: var(--glass-hover); border-color: rgba(255,255,255,.2);
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 20px 60px rgba(0,0,0,.3), 0 0 40px rgba(59,130,246,.1);
-}
-[data-theme="dark"] .card-icon-wrap { background: rgba(255,255,255,.06); border-color: var(--glass-border); }
-[data-theme="dark"] .c1a .card-icon-wrap,
-[data-theme="dark"] .c1b .card-icon-wrap,
-[data-theme="dark"] .c2  .card-icon-wrap,
-[data-theme="dark"] .c3  .card-icon-wrap,
-[data-theme="dark"] .c4  .card-icon-wrap { background: rgba(255,255,255,.06); border-color: var(--glass-border); }
-[data-theme="dark"] .card-name { color: var(--dm-text); }
-[data-theme="dark"] .card-desc { color: var(--dm-text-2); }
-[data-theme="dark"] .tag-inner  { background: rgba(96,165,250,.12); color: var(--dm-blue-400); border-color: rgba(96,165,250,.2); }
-[data-theme="dark"] .tag-hot    { background: rgba(251,113,133,.12); color: var(--dm-rose-400); border-color: rgba(251,113,133,.2); }
-[data-theme="dark"] .tag-new    { background: rgba(52,211,153,.12); color: var(--dm-emerald-400); border-color: rgba(52,211,153,.2); }
-[data-theme="dark"] .tag-free   { background: rgba(251,191,36,.12); color: var(--dm-amber-400); border-color: rgba(251,191,36,.2); }
-[data-theme="dark"] .tag-claw   { background: rgba(251,113,133,.15); color: var(--dm-rose-400); border-color: rgba(251,113,133,.25); }
-[data-theme="dark"] .card-btn { background: rgba(255,255,255,.04); border-color: var(--glass-border); color: var(--dm-text-2); backdrop-filter: blur(4px); }
-[data-theme="dark"] .card-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: var(--dm-text); }
-[data-theme="dark"] .c1a .card-btn.btn-primary { background: rgba(251,113,133,.15); border-color: rgba(251,113,133,.3); color: var(--dm-rose-400); }
-[data-theme="dark"] .c1b .card-btn.btn-primary { background: rgba(96,165,250,.15); border-color: rgba(96,165,250,.3); color: var(--dm-blue-400); }
-[data-theme="dark"] .c2  .card-btn.btn-primary { background: rgba(192,132,252,.15); border-color: rgba(192,132,252,.3); color: var(--dm-purple-400); }
-[data-theme="dark"] .c3  .card-btn.btn-primary { background: rgba(251,191,36,.12); border-color: rgba(251,191,36,.25); color: var(--dm-amber-400); }
-[data-theme="dark"] .c4  .card-btn.btn-primary { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.25); color: var(--dm-emerald-400); }
-[data-theme="dark"] .c3-col { background: rgba(251,191,36,.04); border-color: rgba(251,191,36,.15); backdrop-filter: blur(16px); }
-[data-theme="dark"] .c3-col-header { color: var(--dm-amber-400); border-bottom-color: rgba(251,191,36,.12); }
-[data-theme="dark"] .modal-overlay { background: rgba(0,0,0,.6); backdrop-filter: blur(12px); }
-[data-theme="dark"] .modal {
-  background: rgba(10,22,40,.85);
-  backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-  border-color: var(--glass-border);
-  box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 60px rgba(59,130,246,.08);
-}
-[data-theme="dark"] .modal-header { background: rgba(10,22,40,.9); border-bottom-color: var(--glass-border); }
-[data-theme="dark"] .modal-icon { background: var(--glass); border-color: var(--glass-border); }
-[data-theme="dark"] .modal-name { color: var(--dm-text); }
-[data-theme="dark"] .modal-close { background: var(--glass); border: 1px solid var(--glass-border); color: var(--dm-text-3); }
-[data-theme="dark"] .modal-close:hover { border-color: var(--dm-rose-400); color: var(--dm-rose-400); }
-[data-theme="dark"] .modal-desc { color: var(--dm-text-2); }
-[data-theme="dark"] .modal-section-title { color: var(--dm-text-3); }
-[data-theme="dark"] .modal-link-item { background: var(--glass); border-color: var(--glass-border); backdrop-filter: blur(8px); }
-[data-theme="dark"] .modal-link-item:hover { background: var(--glass-hover); border-color: rgba(255,255,255,.2); }
-[data-theme="dark"] .modal-link-item.primary { border-color: var(--dm-blue-400); }
-[data-theme="dark"] .modal-link-icon { background: var(--glass); }
-[data-theme="dark"] .modal-link-label { color: var(--dm-text); }
-[data-theme="dark"] .modal-link-url { color: var(--dm-text-3); }
-[data-theme="dark"] .modal-link-arrow { color: var(--dm-text-3); }
-[data-theme="dark"] .modal-tips { background: rgba(255,255,255,.03); border-color: var(--glass-border); color: var(--dm-text-3); }
-[data-theme="dark"] mark { background: rgba(251,191,36,.2); color: var(--dm-amber-400); }
-[data-theme="dark"] .empty-title { color: var(--dm-text); }
-[data-theme="dark"] .empty-sub { color: var(--dm-text-3); }
-[data-theme="dark"] .footer { border-top-color: var(--glass-border); color: var(--dm-text-3); }
-[data-theme="dark"] .footer a { color: var(--dm-blue-400); }
-[data-theme="dark"] .subcat-btn { background: var(--glass); border-color: var(--glass-border); color: var(--dm-text-2); }
-[data-theme="dark"] .subcat-btn:hover { border-color: var(--dm-amber-400); color: var(--dm-amber-400); }
-[data-theme="dark"] .subcat-btn.active { background: rgba(251,191,36,.15); border-color: var(--dm-amber-400); color: var(--dm-amber-400); }
 </style>
 </head>
 <body>
@@ -736,7 +434,7 @@ mark { background: #fef08a; color: var(--gray-900); border-radius: 2px; padding:
 <nav class="nav">
   <div class="nav-logo">
     <div class="nav-logo-mark">🦞</div>
-    鹅厂运营 AI 工具
+    AI 图鉴 Vol.1
   </div>
   <div class="nav-divider"></div>
   <div class="nav-search">
@@ -747,10 +445,6 @@ mark { background: #fef08a; color: var(--gray-900); border-radius: 2px; padding:
     <button class="nav-search-clear" id="searchClear" title="清除">✕</button>
   </div>
   <div class="nav-right">
-    <button class="theme-toggle-btn" id="themeToggle" title="切换深色/浅色模式">
-      <span class="toggle-icon" id="toggleIcon">🌙</span>
-      <span id="toggleText">深色</span>
-    </button>
     <a class="nav-token-btn" href="https://tokens.woa.com" target="_blank" rel="noopener" title="查看 Token 用量">
       ⚡ <span>Token 用量</span>
     </a>
@@ -922,7 +616,7 @@ const TOOLS = [
     id: 'knot', cat: 'c1a', icon: '🪢',
     name: 'Knot (KnotClaw)',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '🔥 热门', cls: 'tag-hot' }],
-    desc: '企微对话即可用，支持 Skill 扩展，零门槛 AI 助手。',
+    desc: '腾讯官方 AI 智能工作台，内置 Skill 市场 + 知识库 + Agent 编排，是最推荐的龙虾入门工具。',
     fullDesc: 'KnotClaw 是腾讯官方维护的 OpenClaw 集成版本，无需自部署，扫码即用。已接入混元、GPT-4o 等多模型；内置 Skill 市场（PPT 生成、文档总结、图片生成等）；支持知识库挂载。是"养虾"最零门槛的入口，也是目前 KM 热文最多的龙虾平台。',
     links: [
       { label: '🚀 立即打开 Knot', url: 'https://knot.woa.com', icon: '🪢', primary: true },
@@ -949,7 +643,7 @@ const TOOLS = [
     id: 'workbuddy', cat: 'c1a', icon: '🤝',
     name: 'WorkBuddy',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '🔥 热门', cls: 'tag-hot' }],
-    desc: '0 代码搭智能助手，说一句话完成复杂任务，已打通企微、支持本地文件操作和自动化工作流。',
+    desc: '企业级 AI Agent，0 代码搭建智能助手，接入知识库和工具链，一句话完成复杂任务。',
     fullDesc: 'WorkBuddy 是腾讯企业级 AI Agent 平台，可快速搭建专属 Agent。支持知识库对话、文件处理、自动化工作流。实测：说一句"修好这个Bug并推送到仓库"就能全程自动执行，适合运营搭建内容生产、数据汇总等自动化工作流。',
     links: [
       { label: '🚀 立即打开', url: 'https://workbuddy.woa.com', icon: '🤝', primary: true },
@@ -958,13 +652,24 @@ const TOOLS = [
     tip: '💡 WorkBuddy + FUE 平台打通后，可以自动部署验证，实现真正的 AI 全流程交付。'
   },
   {
+    id: 'zhangwo', cat: 'c1a', icon: '🦀',
+    name: '掌握 (QQBot x OpenClaw)',
+    tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '✨ 新', cls: 'tag-new' }],
+    desc: '全 GUI 可视化的 OpenClaw，司内开源，支持 Mac 本地或远端部署，已支持 Gemini 3 Pro 模型。',
+    fullDesc: '掌握（QQBot x OpenClaw）是全 GUI 可视化的 OpenClaw 内网版本，司内开源可申请内测。相比标准 OpenClaw 无需命令行操作，适合非技术背景的运营同学。内测期间模型配额充足，支持到 Gemini 3 Pro。扫码进群申请即可使用。',
+    links: [
+      { label: 'KM 龙虾图鉴（含申请方式）', url: 'https://km.woa.com/articles/show/655461', icon: '📖', primary: true }
+    ],
+    tip: '💡 掌握 是专为非技术用户设计的龙虾版本，全鼠标操作，是从 Knot 升级到"自己部署龙虾"的最佳跳板。'
+  },
+  {
     id: 'qclaw', cat: 'c1a', icon: '🔧',
     name: 'QClaw',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }],
-    desc: '免部署直接体验完整 Agent，网页直开无需服务器，已全量开放，现成能用。',
+    desc: 'QQ 管家团队出品的 AI 助手，龙虾底座，已全量开放，轻量易用，适合快速上手 Agent 使用。',
     fullDesc: 'QClaw（qclaw.qq.com）是 QQ 管家团队基于 OpenClaw 底座做的 AI 助手产品，内测结束后已全量开放。相比纯技术部署版更轻量，适合想体验 Agent 能力但不想折腾部署的同学。已集成常用 Skill 市场。',
     links: [
-      { label: '🚀 立即打开', url: 'https://qclaw.woa.com', icon: '🔧', primary: true },
+      { label: '🚀 立即打开', url: 'https://qclaw.qq.com', icon: '🔧', primary: true },
       { label: 'KM 龙虾图鉴', url: 'https://km.woa.com/articles/show/655461', icon: '📖' }
     ],
     tip: '💡 QClaw 最适合"想了解龙虾但还没时间搭建自己龙虾"的同学，现成能用，体验完整 Agent 工作流。'
@@ -973,10 +678,10 @@ const TOOLS = [
     id: 'codebuddy', cat: 'c1a', icon: '💻',
     name: 'CodeBuddy',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '🔥 热门', cls: 'tag-hot' }],
-    desc: '装在 IDE 里的代码助手，不懂代码也能用，描述需求直接生成，Vibe Coding 首选。',
+    desc: '腾讯 AI 编程 Agent，内嵌 VS Code，0 代码也能 Vibe Coding，快速搭建运营工具、数据看板。',
     fullDesc: 'CodeBuddy 是腾讯 AI 编程助手，内嵌在 VS Code 中。不懂代码也能用：描述需求 → AI 自动写代码 → 自动部署验证。KM 热文：团队用它实现"0-Coding"，一句话建运营数据看板、自动化报表、内部工具。',
     links: [
-      { label: '🚀 立即打开', url: 'https://codebuddy.woa.com', icon: '💻', primary: true },
+      { label: '🚀 立即打开', url: 'https://codebuddy.qq.com', icon: '💻', primary: true },
       { label: 'KM AI Native 手册', url: 'https://km.woa.com/articles/show/655726', icon: '📖' },
       { label: 'KM Token 节省技巧', url: 'https://km.woa.com/articles/show/651115', icon: '📖' }
     ],
@@ -987,23 +692,12 @@ const TOOLS = [
     id: 'box', cat: 'c1a', icon: '📦',
     name: 'Box AI',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '✨ 新', cls: 'tag-new' }],
-    desc: '安全沙箱里跑任务，支持浏览器操控串联其他工具，一键部署，快速安全。',
+    desc: '腾讯内部 AI 工作台，多模型支持，操作简洁，适合快速完成文案生成、信息整理、方案起草等日常任务。',
     fullDesc: 'Box AI（box-ai.woa.com）是腾讯内部 AI 工作台，支持多模型切换（混元/DeepSeek等），界面简洁清爽，上手零门槛。适合快速完成文案起草、信息整理、方案生成等日常工作。作为龙虾系工具，已集成到腾讯内部 AI 基础设施体系，Token 用量可在 tokens.woa.com 查询。',
     links: [
       { label: '🚀 立即打开 Box', url: 'https://box-ai.woa.com', icon: '📦', primary: true }
     ],
     tip: '💡 Box AI 界面简洁，适合快速完成不需要复杂 Agent 的日常任务，轻量版龙虾好帮手。'
-  },
-  {
-    id: 'hapi', cat: 'c1a', icon: '☁️',
-    name: 'Hapi',
-    tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '✨ 新', cls: 'tag-new' }, { text: '🔥 热门', cls: 'tag-hot' }],
-    desc: '手机端用龙虾，上下文持续不断，通勤路上也能跑任务，多项目并行不断线。',
-    fullDesc: 'Hapi 是腾讯云端 AI 编程平台，主打"手机也能用的龙虾"。无需搭建本地开发环境，直接在云端完成代码编写、调试、部署全流程。适合需要随时随地开发的同学，以及没有开发环境但想体验 AI 编程的非技术用户。',
-    links: [
-      { label: '📖 查看部署教程', url: 'https://km.woa.com/articles/show/653720', icon: '📖', primary: true }
-    ],
-    tip: '💡 Hapi 最适合在没有电脑的场景下快速验证想法，手机上也能完成简单工具的搭建和部署。'
   },
 
   /* ─── C1B: 对话助手 ─────────────────────── */
@@ -1036,7 +730,7 @@ const TOOLS = [
     desc: '腾讯自研大语言模型，多模态能力全面，已集成腾讯文档、会议等产品，涉密内容优先使用。',
     fullDesc: '腾讯混元是司内基础大模型，已集成到腾讯文档 AI、腾讯会议 AI 小助手、Knot 等产品中。直接访问混元官网可对话使用。涉及腾讯内部业务信息时，优先使用混元等司内模型，保障数据安全合规。',
     links: [
-      { label: '🚀 立即打开', url: 'https://hunyuan.woa.com', icon: '🌀', primary: true }
+      { label: '🚀 立即打开', url: 'https://hunyuan.tencent.com', icon: '🌀', primary: true }
     ],
     tip: '💡 【重要】涉及内部数据、商业策略等敏感信息时，必须使用混元等司内模型，不要发给外部 AI。'
   },
@@ -1114,7 +808,7 @@ const TOOLS = [
 
   /* ─── C3: AI 创造工坊 ─────────────────────── */
   {
-    id: 'vedas-agent', cat: 'c3', subcat: 'ppt', icon: '🧩',
+    id: 'vedas', cat: 'c1a', icon: '🧩',
     name: 'Vedas Agent',
     tags: [{ text: '🦞 龙虾系', cls: 'tag-claw' }, { text: '司内', cls: 'tag-inner' }, { text: '🔥 热门', cls: 'tag-hot' }],
     desc: '腾讯内部多模态 AI Agent，不只是 PPT！连接 Skill 市场，2 分钟生成汇报/海报/运营方案，可调用多种工具完成复杂任务。',
@@ -1126,6 +820,17 @@ const TOOLS = [
       { label: 'KM 运营海报 2 分钟', url: 'https://km.woa.com/articles/show/655210', icon: '📖' }
     ],
     tip: '💡 Vedas 不只是 PPT 工具！通过 Skill 市场扩展，可以接入数据、生成海报、推送企微，是真正的多功能 AI Agent。'
+  },
+  {
+    id: 'txdocs-ppt', cat: 'c3', subcat: 'ppt', icon: '📑',
+    name: '腾讯文档 AI',
+    tags: [{ text: '司内', cls: 'tag-inner' }],
+    desc: '一分钟生成专业 PPT，无需安装，AI 写作助手随时可用，与企微深度集成，多人协作无缝衔接。',
+    fullDesc: '腾讯文档已内置 AI 能力：AI 写作助手（续写、改写、润色）、AI PPT 生成、AI 表格分析。与企微、TAPD 深度集成，多人实时协作无缝衔接。是日常工作最高频使用的协作平台，直接 @ AI 即可唤起。',
+    links: [
+      { label: '🚀 立即打开', url: 'https://docs.qq.com', icon: '📑', primary: true }
+    ],
+    tip: '💡 在腾讯文档里直接 @ AI 助手，可以做"帮我把这段话改成更正式的公告语气"等实时润色操作。'
   },
   {
     id: 'gamma', cat: 'c3', subcat: 'ppt', icon: '✨',
@@ -1271,7 +976,7 @@ const TOOLS = [
     desc: '数字人播报、AI 配音、文字转视频，腾讯出品，批量生产标准化视频内容的专属工具。',
     fullDesc: '腾讯智影专注 AI 视频创作：数字人（可定制形象克隆）、AI 配音（多音色和方言）、文字转视频、智能去水印、视频翻译。适合批量生产标准化介绍视频、赛事解说视频等。',
     links: [
-      { label: '🚀 立即打开', url: 'https://zenvideo.woa.com', icon: '👤', primary: true }
+      { label: '🚀 立即打开', url: 'https://zenvideo.qq.com', icon: '👤', primary: true }
     ],
     tip: '💡 智影数字人可以克隆真实人像，适合制作需要"真人出镜"的游戏发布公告、版本更新介绍视频。'
   },
@@ -1330,7 +1035,7 @@ const TOOLS = [
         </div>
         <div class="card-desc">${hl(tool.desc, q)}</div>
         <div class="card-actions">
-          <a class="card-btn btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${tool.links[0].label}</a>
+          <a class="card-btn btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🚀 立即打开</a>
           <button class="card-btn" onclick="event.stopPropagation(); showModal('${tool.id}')">详情 →</button>
         </div>
       </div>`;
@@ -1489,35 +1194,6 @@ const TOOLS = [
   // Init
   render();
 })();
-
-// ── 深色模式切换 ──
-(function(){
-  const btn = document.getElementById('themeToggle');
-  const icon = document.getElementById('toggleIcon');
-  const text = document.getElementById('toggleText');
-  const html = document.documentElement;
-  let isDark = localStorage.getItem('theme') === 'dark';
-  function apply(){
-    if(isDark){
-      html.setAttribute('data-theme','dark');
-      icon.textContent = '☀️';
-      text.textContent = '浅色';
-    } else {
-      html.removeAttribute('data-theme');
-      icon.textContent = '🌙';
-      text.textContent = '深色';
-    }
-  }
-  apply();
-  btn.addEventListener('click', function(){
-    isDark = !isDark;
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    apply();
-    icon.style.transform = 'rotate(360deg)';
-    setTimeout(()=>{ icon.style.transform = ''; }, 400);
-  });
-})();
-
 </script>
 </body>
 </html>

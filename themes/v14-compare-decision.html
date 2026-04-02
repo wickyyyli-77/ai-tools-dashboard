@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI 工具图鉴 v14 · 对比决策版</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root {
+  --bg: #f8f9fb;
+  --card: #fff;
+  --primary: #2563eb;
+  --primary-light: #eff6ff;
+  --primary-mid: #bfdbfe;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --text: #111827;
+  --text-sub: #6b7280;
+  --text-dim: #9ca3af;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;border:none;cursor:pointer;background:none;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:300;height:58px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;box-shadow:var(--shadow);}
+.nav-logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;flex-shrink:0;}
+.nav-logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-btn{font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--primary-light);color:var(--primary);white-space:nowrap;transition:all .2s;}
+.nav-btn:hover{background:var(--primary);color:#fff;}
+
+/* HERO */
+.hero{text-align:center;padding:44px 24px 0;max-width:700px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--primary);background:var(--primary-light);border-radius:20px;padding:5px 14px;margin-bottom:16px;}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px;}
+.hero h1 em{font-style:normal;color:var(--primary);}
+.hero-sub{font-size:14px;color:var(--text-sub);line-height:1.7;margin-bottom:32px;}
+
+/* COMPARE SELECT AREA */
+.compare-area{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:200;}
+.compare-inner{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:12px;}
+.compare-label{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;flex-shrink:0;}
+.compare-selected{display:flex;gap:7px;flex:1;overflow-x:auto;scrollbar-width:none;}
+.compare-selected::-webkit-scrollbar{display:none;}
+.compare-chip{display:flex;align-items:center;gap:6px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:20px;padding:5px 10px 5px 12px;font-size:12.5px;font-weight:600;color:var(--primary);flex-shrink:0;}
+.compare-chip-remove{width:16px;height:16px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;cursor:pointer;flex-shrink:0;}
+.compare-empty{font-size:12px;color:var(--text-dim);font-style:italic;}
+.compare-action{display:flex;gap:8px;flex-shrink:0;}
+.compare-btn{font-size:12.5px;font-weight:700;padding:7px 16px;border-radius:20px;transition:all .2s;white-space:nowrap;}
+.compare-btn-primary{background:var(--primary);color:#fff;}
+.compare-btn-primary:hover{background:#1d4ed8;}
+.compare-btn-ghost{border:1.5px solid var(--border);color:var(--text-sub);}
+.compare-btn-ghost:hover{border-color:var(--primary);color:var(--primary);}
+
+/* CONTENT */
+.content{max-width:1100px;margin:0 auto;padding:28px 24px 80px;}
+
+/* GROUP TABS */
+.group-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:24px;padding-bottom:2px;}
+.group-tabs::-webkit-scrollbar{display:none;}
+.group-tab{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1.5px solid var(--border);color:var(--text-sub);background:#fff;transition:all .2s;cursor:pointer;}
+.group-tab:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+.group-tab.active{background:var(--primary);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(37,99,235,.35);}
+
+/* GROUP SECTION */
+.group-section{margin-bottom:40px;}
+.group-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.group-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.group-title{font-size:16px;font-weight:800;color:var(--text);}
+.group-sub{font-size:12.5px;color:var(--text-sub);margin-top:2px;}
+.group-count{font-size:11.5px;color:var(--text-dim);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 10px;margin-left:auto;}
+
+/* TOOL CARDS GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.tool-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;position:relative;}
+.tool-card:hover{box-shadow:var(--shadow-md);}
+.tool-card.selected{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
+.select-overlay{position:absolute;top:10px;right:10px;z-index:2;}
+.select-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.select-checkbox.checked{background:var(--primary);border-color:var(--primary);}
+.select-checkbox .check-mark{color:#fff;font-size:12px;display:none;}
+.select-checkbox.checked .check-mark{display:block;}
+.card-top{display:flex;align-items:flex-start;gap:11px;padding:16px 16px 0;}
+.card-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--bg);border:1px solid var(--border);}
+.card-head{flex:1;min-width:0;padding-right:24px;}
+.card-name{font-size:14px;font-weight:700;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card-tag-row{display:flex;gap:4px;flex-wrap:wrap;}
+.tag{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;}
+.tag-inner{background:#eff6ff;color:#3b82f6;}
+.tag-free{background:#f0fdf4;color:#16a34a;}
+.tag-hot{background:#fff7ed;color:#ea580c;}
+.tag-new{background:#faf5ff;color:#7c3aed;}
+.tag-claw{background:#fff0f3;color:#e11d48;}
+.card-desc{font-size:12px;color:var(--text-sub);line-height:1.6;padding:10px 16px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
+
+/* SCORE BARS IN CARD */
+.card-scores{padding:0 16px 14px;display:flex;flex-direction:column;gap:5px;}
+.score-row{display:flex;align-items:center;gap:8px;}
+.score-lbl{font-size:10.5px;color:var(--text-dim);width:48px;flex-shrink:0;}
+.score-bar{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.score-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.16,1,.3,1);}
+.score-val{font-size:10.5px;font-weight:700;width:14px;text-align:right;flex-shrink:0;}
+.card-footer{display:flex;gap:8px;padding:0 16px 14px;}
+.card-btn{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:7px;transition:all .2s;}
+.card-btn-primary{background:var(--primary);color:#fff;flex:1;justify-content:center;}
+.card-btn-primary:hover{background:#1d4ed8;}
+.card-btn-ghost{border:1.5px solid var(--border);color:var(--text-sub);}
+.card-btn-ghost:hover{border-color:var(--primary);color:var(--primary);}
+
+/* COMPARE TABLE */
+.compare-table-section{background:#fff;border:1.5px solid var(--primary-mid);border-radius:16px;padding:24px;margin-bottom:28px;box-shadow:0 4px 20px rgba(37,99,235,.1);}
+.compare-table-title{font-size:16px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.compare-table{width:100%;border-collapse:collapse;}
+.compare-table th{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;border-bottom:2px solid var(--border);text-align:left;}
+.compare-table th.tool-col{min-width:140px;}
+.compare-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:var(--bg);}
+.compare-row-label{font-size:11.5px;font-weight:700;color:var(--text-sub);}
+.compare-val{font-size:13px;}
+.star-fill{color:#f59e0b;font-size:13px;}
+.star-empty{color:var(--text-dim);font-size:13px;}
+.compare-tag{font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:5px;margin-right:3px;}
+.winner-badge{background:#fef3c7;color:#d97706;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;}
+.score-dots{display:flex;gap:2px;}
+.sdot-fill{width:10px;height:10px;border-radius:2px;background:var(--primary);}
+.sdot-empty{width:10px;height:10px;border-radius:2px;background:var(--bg);border:1px solid var(--border);}
+.recommend-banner{background:linear-gradient(135deg,var(--primary-light),var(--purple-light));border:1px solid var(--primary-mid);border-radius:10px;padding:14px 16px;margin-top:16px;display:flex;gap:12px;align-items:flex-start;}
+.recommend-icon{font-size:20px;flex-shrink:0;}
+.recommend-text{font-size:12.5px;color:var(--text-sub);line-height:1.6;}
+.recommend-text strong{color:var(--primary);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:18px;box-shadow:var(--shadow-md);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;transform:scale(.96) translateY(14px);transition:transform .25s;}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-header{padding:20px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;background:#fff;}
+.modal-icon{width:48px;height:48px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;background:var(--bg);border:1px solid var(--border);}
+.modal-meta{flex:1;}.modal-name{font-size:16px;font-weight:800;}.modal-tags-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--bg);color:var(--text-sub);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;flex-shrink:0;}
+.modal-close:hover{background:#fee2e2;color:var(--red);}
+.modal-body{padding:18px 20px 22px;}
+.modal-desc{font-size:13px;color:var(--text-sub);line-height:1.75;margin-bottom:16px;}
+.modal-label{font-size:10.5px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.modal-links{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.modal-link{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);transition:border-color .15s;text-decoration:none;}
+.modal-link:hover,.modal-link.p{border-color:var(--primary);}
+.modal-link-icon{width:28px;height:28px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border);}
+.modal-link-body{flex:1;min-width:0;}.modal-link-label{font-size:12.5px;font-weight:600;color:var(--text);}.modal-link-url{font-size:11px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.modal-link-arrow{color:var(--primary);}
+.modal-tip-box{background:var(--primary-light);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--primary-mid);}
+.modal-tip-label{font-size:10.5px;font-weight:700;color:var(--primary);margin-bottom:5px;}
+.modal-tip-text{font-size:12.5px;color:var(--text-sub);line-height:1.65;}
+
+mark{background:rgba(37,99,235,.12);color:#2563eb;border-radius:2px;padding:0 2px;}
+.footer{border-top:1px solid var(--border);padding:20px;text-align:center;font-size:12px;color:var(--text-dim);}
+.footer a{color:var(--primary);}
+@media(max-width:768px){.compare-inner{flex-wrap:wrap;}.tools-grid{grid-template-columns:1fr 1fr;}.compare-action{flex-direction:column;}}
+@media(max-width:500px){.tools-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">⚖️</div>
+    AI 工具对比决策
+  </div>
+  <div class="nav-right">
+    <a class="nav-btn" href="https://tokens.woa.com" target="_blank">⚡ Token 用量</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-badge">⚖️ 选工具不再纠结，一表对比心中有数</div>
+  <h1>选哪个？<em>横向对比</em>后再决定</h1>
+  <p class="hero-sub">勾选 2-4 个同类工具，一键生成对比表格<br/>维度全面：场景适用性 · 上手难度 · 免费程度 · 综合评分</p>
+</header>
+
+<!-- 已选择 & 对比操作栏 -->
+<div class="compare-area">
+  <div class="compare-inner">
+    <span class="compare-label">已选工具</span>
+    <div class="compare-selected" id="compareSelected">
+      <span class="compare-empty" id="compareEmpty">👆 勾选工具后点击"开始对比"</span>
+    </div>
+    <div class="compare-action">
+      <button class="compare-btn compare-btn-ghost" id="clearBtn" onclick="clearCompare()">清空</button>
+      <button class="compare-btn compare-btn-primary" id="compareBtn" onclick="doCompare()">⚖️ 开始对比</button>
+    </div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <!-- 对比结果区（动态插入） -->
+  <div id="compareResult"></div>
+
+  <!-- 分类标签 -->
+  <div class="group-tabs" id="groupTabs">
+    <div class="group-tab active" data-group="all" onclick="filterGroup('all')">📋 全部工具</div>
+    <div class="group-tab" data-group="agent" onclick="filterGroup('agent')">🦞 AI Agent / 龙虾系</div>
+    <div class="group-tab" data-group="chat" onclick="filterGroup('chat')">💬 对话 & 推理</div>
+    <div class="group-tab" data-group="knowledge" onclick="filterGroup('knowledge')">📚 知识库 & 协作</div>
+    <div class="group-tab" data-group="image" onclick="filterGroup('image')">🎨 图像 & 视频</div>
+    <div class="group-tab" data-group="efficiency" onclick="filterGroup('efficiency')">⚡ 效率 & 数据</div>
+  </div>
+
+  <!-- 工具列表 -->
+  <div id="toolGroups"></div>
+</div>
+
+<footer class="footer">由游戏发行内容运营团队维护 &nbsp;·&nbsp; 联系 wickyli &nbsp;·&nbsp; <a href="https://km.woa.com" target="_blank">KM 主页</a> &nbsp;·&nbsp; 更新于 2026-03-29</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon" id="modalIcon"></div>
+      <div class="modal-meta"><div class="modal-name" id="modalName"></div><div class="modal-tags-row" id="modalTags"></div></div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-label">直达链接</div>
+      <div class="modal-links" id="modalLinks"></div>
+      <div class="modal-tip-box"><div class="modal-tip-label">💡 实战技巧</div><div class="modal-tip-text" id="modalTip"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOOLS = [
+  // Agent 系
+  {id:'knot',group:'agent',icon:'🪢',name:'Knot (KnotClaw)',tags:[{text:'🦞',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'腾讯官方龙虾工作台，零门槛入门 Agent，Skill 市场 + 知识库挂载，多模型支持。',
+   fullDesc:'KnotClaw 是腾讯官方维护的 OpenClaw 集成版本，无需自部署，扫码即用。已接入混元、GPT-4o 等多模型；内置 Skill 市场；支持知识库挂载。',
+   links:[{label:'🚀 立即打开 Knot',url:'https://knot.woa.com',icon:'🪢',primary:true},{label:'KM 龙虾全图鉴',url:'https://km.woa.com/articles/show/655461',icon:'📖'}],
+   tip:'你正在使用的就是 KnotClaw！直接在对话框里 @ Skill 即可调用各种 AI 能力，无需额外设置。',
+   access:'司内专属',cost:'免费（Token 限额）',difficulty:1,
+   scores:{scene:5,power:4,easy:5,collab:5,cost:5}},
+  {id:'workbuddy',group:'agent',icon:'🤝',name:'WorkBuddy',tags:[{text:'🦞',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'企业级 AI Agent，0 代码搭建智能助手，接入知识库和工具链，工作流自动化首选。',
+   fullDesc:'WorkBuddy 是腾讯企业级 AI Agent 平台，支持知识库对话、文件处理、自动化工作流。一句话完成复杂任务。',
+   links:[{label:'🚀 立即打开',url:'https://workbuddy.woa.com',icon:'🤝',primary:true},{label:'KM 实战文章',url:'https://km.woa.com/articles/show/655800',icon:'📖'}],
+   tip:'WorkBuddy + FUE 平台打通后，可以自动部署验证，实现真正的 AI 全流程交付。',
+   access:'司内专属',cost:'免费（Token 限额）',difficulty:3,
+   scores:{scene:4,power:5,easy:4,collab:5,cost:5}},
+  {id:'openclaw',group:'agent',icon:'🦞',name:'OpenClaw 本地版',tags:[{text:'🦞',cls:'tag-claw'},{text:'开源',cls:'tag-free'}],
+   desc:'开源 AI Agent，本地/远端部署，完全可控，Skills 体系扩展无限，进阶用户首选。',
+   fullDesc:'OpenClaw 是开源 AI Agent，可接入 Gemini、Claude、混元等多种模型；通过 Skills 体系扩展能力无上限。适合想深度定制 AI 工作流的进阶用户。',
+   links:[{label:'🚀 立即打开',url:'https://openclaw.woa.com',icon:'🦞',primary:true},{label:'KM 使用攻略',url:'https://km.woa.com/articles/show/653709',icon:'📖'}],
+   tip:'进阶：用 Skills 体系把重复工作做成"一句话执行"的自动化流。',
+   access:'开源自部署',cost:'免费（自定义模型计费）',difficulty:4,
+   scores:{scene:5,power:5,easy:2,collab:3,cost:4}},
+  {id:'manus',group:'agent',icon:'🤖',name:'Manus Agent',tags:[{text:'🔥',cls:'tag-hot'}],
+   desc:'全球首款真正自主 AI Agent，多步复杂任务全程无需干预，竞品调研/数据整理神器。',
+   fullDesc:'Manus 能像人一样操作浏览器、写代码、查资料、生成文件，把多步复杂任务从头做到尾。适合自动整理竞品数据、批量处理内容素材。',
+   links:[{label:'🚀 立即打开',url:'https://manus.im',icon:'🤖',primary:true}],
+   tip:'告诉 Manus 你要做什么，它会自动搜索、筛选、整合，交付完整产出物。',
+   access:'外部工具',cost:'免费额度有限',difficulty:2,
+   scores:{scene:4,power:5,easy:4,collab:2,cost:3}},
+  {id:'codebuddy',group:'agent',icon:'💻',name:'CodeBuddy',tags:[{text:'🦞',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'腾讯 AI 编程 Agent，Vibe Coding 一句话建工具，运营数据看板零代码快速出原型。',
+   fullDesc:'CodeBuddy 是腾讯 AI 编程助手，内嵌在 VS Code 中。描述需求 → AI 自动写代码 → 自动部署验证。一句话建运营数据看板、自动化报表。',
+   links:[{label:'🚀 立即打开',url:'https://codebuddy.qq.com',icon:'💻',primary:true},{label:'KM AI Native 手册',url:'https://km.woa.com/articles/show/655726',icon:'📖'}],
+   tip:'用 CodeBuddy 建运营工具时，先描述清楚"我要什么数据""展示成什么样"，越具体效果越好。',
+   access:'司内专属',cost:'免费（Token 限额）',difficulty:2,
+   scores:{scene:3,power:5,easy:4,collab:3,cost:5}},
+
+  // 对话 & 推理
+  {id:'deepseek',group:'chat',icon:'🌊',name:'DeepSeek',tags:[{text:'免费',cls:'tag-free'},{text:'🔥',cls:'tag-hot'}],
+   desc:'国产顶级推理大模型，Deep Think 质量媲美 o3，策划分析、长文档处理首选。',
+   fullDesc:'DeepSeek Deep Think（R1）模式进行多步骤推理。适合竞品深度分析、活动方案头脑风暴、长文档总结。免费额度充足。',
+   links:[{label:'🚀 立即打开',url:'https://chat.deepseek.com',icon:'🌊',primary:true}],
+   tip:'复杂推理任务开启 DeepThink (R1) 模式，效果显著好于默认。分析报告、策划大纲必用这个模式。',
+   access:'外部工具',cost:'完全免费',difficulty:1,
+   scores:{scene:4,power:5,easy:5,collab:2,cost:5}},
+  {id:'doubao',group:'chat',icon:'🫘',name:'豆包',tags:[{text:'免费',cls:'tag-free'}],
+   desc:'字节出品，文案润色、创意头脑风暴一流，移动端体验极佳，随时随地可用。',
+   fullDesc:'豆包适合快速生成文案初稿、润色内容、做创意头脑风暴。移动端 App 体验丝滑，支持语音输入、图片识别，有丰富角色预设。',
+   links:[{label:'🚀 立即打开',url:'https://www.doubao.com',icon:'🫘',primary:true}],
+   tip:'豆包有"学习"功能，可定制持久角色（如"游戏内容专家"），让每次对话都更精准有效。',
+   access:'外部工具',cost:'免费（有限额）',difficulty:1,
+   scores:{scene:5,power:4,easy:5,collab:2,cost:5}},
+  {id:'hunyuan',group:'chat',icon:'🌀',name:'腾讯混元',tags:[{text:'司内',cls:'tag-inner'}],
+   desc:'腾讯自研，多模态能力全面，涉密内容必须使用，数据安全合规保障，司内唯一指定。',
+   fullDesc:'腾讯混元是司内基础大模型。涉及腾讯内部业务信息时，必须优先使用混元等司内模型，保障数据安全合规。',
+   links:[{label:'🚀 立即打开',url:'https://hunyuan.tencent.com',icon:'🌀',primary:true}],
+   tip:'【重要】涉及内部数据、商业策略等敏感信息时，必须使用混元等司内模型，不要发给外部 AI。',
+   access:'司内专属',cost:'免费（Token 限额）',difficulty:1,
+   scores:{scene:4,power:4,easy:5,collab:3,cost:5}},
+  {id:'perplexity',group:'chat',icon:'🔭',name:'Perplexity',tags:[],
+   desc:'AI 搜索引擎，每次回答都附带真实引用链接，竞品调研信息最可信，不产生幻觉。',
+   fullDesc:'Perplexity 是 AI 搜索引擎，每次回答都附带真实网页引用。非常适合竞品信息速查、行业数据搜集、新闻事件溯源。',
+   links:[{label:'🚀 立即打开',url:'https://www.perplexity.ai',icon:'🔭',primary:true}],
+   tip:'设置 Focus 模式：Academic 专搜论文，Social 搜社媒讨论，YouTube 专搜视频内容。',
+   access:'外部工具',cost:'基础版免费',difficulty:1,
+   scores:{scene:3,power:4,easy:5,collab:2,cost:4}},
+
+  // 知识库 & 协作
+  {id:'paozi',group:'knowledge',icon:'🦌',name:'狍子 AI',tags:[{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'腾讯内部 AI 知识管理，语义搜索准确，挂载团队文档即可 AI 问答，历史资料快速召回。',
+   fullDesc:'狍子 AI 主打语义化搜索和知识库问答。可以用自然语言提问，从团队沉淀的文档中精准检索答案。',
+   links:[{label:'🚀 立即打开',url:'https://paozi.woa.com',icon:'🦌',primary:true}],
+   tip:'把主播档案、活动复盘文档喂给狍子 AI，团队成员直接问答即可找到答案。',
+   access:'司内专属',cost:'免费',difficulty:2,
+   scores:{scene:3,power:4,easy:4,collab:5,cost:5}},
+  {id:'lexiang',group:'knowledge',icon:'📗',name:'乐享知识库',tags:[{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'腾讯内部企业知识库，支持 AI 语义检索，上传文档即可问答，团队第二大脑首选。',
+   fullDesc:'腾讯乐享支持自然语言问答。可上传 PDF、Word、Excel 等多种格式文档，配合 Knot Agent 使用效果最佳。',
+   links:[{label:'🚀 立即打开',url:'https://lexiang.woa.com',icon:'📗',primary:true}],
+   tip:'定期把主播档案、活动复盘、竞品分析文档沉淀进乐享，让团队 AI 问答更精准。',
+   access:'司内专属',cost:'免费',difficulty:2,
+   scores:{scene:3,power:4,easy:4,collab:5,cost:5}},
+  {id:'ima',group:'knowledge',icon:'🧠',name:'IMA 个人知识库',tags:[{text:'司内',cls:'tag-inner'}],
+   desc:'腾讯个人 AI 知识库，上传文件、网页、笔记，打造专属第二大脑，与龙虾联动效果极佳。',
+   fullDesc:'IMA 支持上传各类文档和网页收藏，AI 建立知识索引，随时通过自然语言检索。适合积累竞品资料库、行业资讯库。',
+   links:[{label:'🚀 立即打开',url:'https://ima.woa.com',icon:'🧠',primary:true}],
+   tip:'搭配浏览器插件使用，遇到好文章一键收藏到 IMA，自动 AI 摘要，积少成多成为强大知识库。',
+   access:'司内专属',cost:'免费',difficulty:1,
+   scores:{scene:2,power:3,easy:5,collab:2,cost:5}},
+  {id:'txdocs',group:'knowledge',icon:'📑',name:'腾讯文档 AI',tags:[{text:'司内',cls:'tag-inner'}],
+   desc:'AI 写作助手 + AI PPT 生成 + AI 表格分析，与企微深度集成，多人协作无缝衔接。',
+   fullDesc:'腾讯文档内置 AI 能力：AI 写作助手、AI PPT 生成、AI 表格分析。与企微、TAPD 深度集成，多人实时协作无缝衔接。',
+   links:[{label:'🚀 立即打开',url:'https://docs.qq.com',icon:'📑',primary:true}],
+   tip:'在腾讯文档里直接 @ AI 助手，可以做"帮我把这段话改成更正式的公告语气"等实时润色操作。',
+   access:'司内专属',cost:'免费',difficulty:1,
+   scores:{scene:4,power:4,easy:5,collab:5,cost:5}},
+
+  // 图像 & 视频
+  {id:'midjourney',group:'image',icon:'🖼️',name:'Midjourney',tags:[{text:'🔥',cls:'tag-hot'}],
+   desc:'全球最强 AI 图像生成，艺术风格多样，游戏概念图、封面海报的行业标准工具。',
+   fullDesc:'Midjourney V6 是 AI 图像质量天花板，艺术风格、游戏概念图、人物写真效果顶级。操作在 Discord 内进行，支持中文 Prompt。',
+   links:[{label:'🚀 立即打开',url:'https://www.midjourney.com',icon:'🖼️',primary:true}],
+   tip:'Prompt 公式：[主体] + [风格] + [光影] + [构图] + --ar 16:9 --v 6 --q 2',
+   access:'外部工具',cost:'付费 $10+/月',difficulty:3,
+   scores:{scene:4,power:5,easy:3,collab:2,cost:2}},
+  {id:'jimeng',group:'image',icon:'🌅',name:'即梦 AI 作图',tags:[{text:'免费',cls:'tag-free'}],
+   desc:'字节旗下 AI 作图，中文 Prompt 友好，国风/游戏/二次元效果出色，完全免费可用。',
+   fullDesc:'即梦 AI 图片生成工具，中文 Prompt 理解能力强、国内访问稳定快速、免费额度充足。"参考图风格"功能可维持系列素材风格统一。',
+   links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🌅',primary:true}],
+   tip:'即梦"参考图风格"功能：上传一张风格参考图，后续生成都保持类似风格，适合制作系列配图素材。',
+   access:'外部工具',cost:'免费（有限额）',difficulty:1,
+   scores:{scene:4,power:4,easy:5,collab:2,cost:5}},
+  {id:'seedance',group:'image',icon:'🎬',name:'即梦视频',tags:[{text:'🔥',cls:'tag-hot'}],
+   desc:'字节旗下顶级 AI 视频生成，文/图生视频业界领先，游戏宣传片制作首选。',
+   fullDesc:'即梦（Seedance 引擎）支持文生视频（最长 10 秒）、图生视频、运镜控制。物理效果真实，镜头语言丰富。',
+   links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🎬',primary:true}],
+   tip:'先用 Midjourney 生成高质量参考图，再导入即梦做图生视频，效果更可控精准。',
+   access:'外部工具',cost:'免费（有限额）',difficulty:2,
+   scores:{scene:4,power:5,easy:4,collab:2,cost:4}},
+  {id:'kling',group:'image',icon:'🎥',name:'可灵 AI',tags:[{text:'🔥',cls:'tag-hot'}],
+   desc:'快手出品，物理效果真实，首尾帧控制独家亮点，循环动画/游戏素材制作专业级。',
+   fullDesc:'可灵 AI 与即梦并列国内最强 AI 视频生成平台。"首尾帧控制"功能精确控制视频开始和结束画面，适合做循环视频素材。',
+   links:[{label:'🚀 立即打开',url:'https://klingai.com',icon:'🎥',primary:true}],
+   tip:'可灵"首尾帧控制"非常强大，适合制作开屏动画、循环素材。',
+   access:'外部工具',cost:'免费（有限额）',difficulty:2,
+   scores:{scene:4,power:5,easy:4,collab:2,cost:4}},
+  {id:'gamma',group:'image',icon:'✨',name:'Gamma',tags:[{text:'🔥',cls:'tag-hot'}],
+   desc:'国际热门 AI 演示工具，设计感极强，输入文字自动生成美观 PPT/网页，对外 Pitch 首选。',
+   fullDesc:'Gamma 是设计感最强的 AI 演示工具，生成的 PPT 视觉效果远超其他工具。支持直接发布为网页，非常适合做 Pitch Deck。',
+   links:[{label:'🚀 立即打开',url:'https://gamma.app',icon:'✨',primary:true}],
+   tip:'Gamma 支持"从大纲生成"，建议先写好结构再导入，生成后导出 PPT 文件在本地精修。',
+   access:'外部工具',cost:'基础版免费',difficulty:1,
+   scores:{scene:4,power:4,easy:5,collab:3,cost:4}},
+  {id:'napkin',group:'image',icon:'🗒️',name:'Napkin AI',tags:[{text:'✨',cls:'tag-new'}],
+   desc:'文字转信息图神器，粘贴文字自动生成精美图表/流程图，汇报可视化利器，5 秒出图。',
+   fullDesc:'Napkin AI：粘贴任意文字，AI 自动识别逻辑关系并生成信息图、流程图、对比图等。无需设计技能。',
+   links:[{label:'🚀 立即打开',url:'https://www.napkin.ai',icon:'🗒️',primary:true}],
+   tip:'把 OKR 或项目复盘文字丢给 Napkin，直接生成可嵌入 PPT 的信息图，省去设计排版时间。',
+   access:'外部工具',cost:'基础版免费',difficulty:1,
+   scores:{scene:3,power:4,easy:5,collab:2,cost:4}},
+
+  // 效率 & 数据
+  {id:'txmeeting',group:'efficiency',icon:'📹',name:'腾讯会议 AI',tags:[{text:'司内',cls:'tag-inner'},{text:'🔥',cls:'tag-hot'}],
+   desc:'内置 AI 小助手，全程实时转写纪要，自动提取待办和关键决策，2 分钟完成会后整理。',
+   fullDesc:'腾讯会议 AI 小助手：实时语音转文字、自动生成会议摘要和待办事项、识别发言人。',
+   links:[{label:'🚀 立即打开',url:'https://meeting.tencent.com',icon:'📹',primary:true}],
+   tip:'会议结束后，在"AI 纪要"点"精炼摘要"，一键复制到腾讯文档发全体，全流程 2 分钟搞定。',
+   access:'司内专属',cost:'免费',difficulty:1,
+   scores:{scene:4,power:4,easy:5,collab:5,cost:5}},
+  {id:'tingwu',group:'efficiency',icon:'👂',name:'通义听悟',tags:[{text:'免费',cls:'tag-free'}],
+   desc:'阿里出品音视频转文字，说话人识别精准，免费月额 10 小时，竞品发布会整理神器。',
+   fullDesc:'通义听悟说话人识别准确（可区分多人）、支持各类音视频格式、免费每月 10 小时额度。适合整理访谈录音、竞品发布会视频。',
+   links:[{label:'🚀 立即打开',url:'https://tingwu.aliyun.com',icon:'👂',primary:true}],
+   tip:'上传竞品发布会完整视频，转写后再问 AI "提炼核心功能更新和运营重点"，效率极高。',
+   access:'外部工具',cost:'免费（10小时/月）',difficulty:1,
+   scores:{scene:3,power:4,easy:5,collab:3,cost:5}},
+  {id:'fengxun',group:'efficiency',icon:'📡',name:'风讯 Claw',tags:[{text:'司内',cls:'tag-inner'}],
+   desc:'游戏舆情监控专用，实时追踪各平台热点，AI 分析竞品报告，关键词自动预警，内容发行必备。',
+   fullDesc:'风讯 Claw 是腾讯内部游戏舆情监控平台，可追踪微博、抖音、B 站、贴吧等各平台游戏相关讨论。支持 AI 生成竞品分析报告。',
+   links:[{label:'📩 申请开通',url:'https://km.woa.com/articles/show/655517',icon:'📡',primary:true}],
+   tip:'设置关键词订阅后，风讯在热度异常时自动推送预警，不需要每天手动查看。',
+   access:'司内申请',cost:'免费（申请开通）',difficulty:2,
+   scores:{scene:5,power:5,easy:3,collab:4,cost:5}},
+  {id:'isearch',group:'efficiency',icon:'🔎',name:'iSearch',tags:[{text:'司内',cls:'tag-inner'}],
+   desc:'腾讯内网智能搜索，整合 KM、iWiki 等内部资源，AI 语义搜索，找内部资料必用。',
+   fullDesc:'iSearch 整合 KM 文章、iWiki 文档、代码仓库等。支持 AI 语义搜索。找过去的项目方案、前辈经验效率最高。',
+   links:[{label:'🚀 立即打开',url:'https://isearch.woa.com',icon:'🔎',primary:true}],
+   tip:'iSearch 支持在搜索结果中直接问 AI 总结，一步到位获得关于某个主题的内部最佳实践。',
+   access:'司内专属',cost:'免费',difficulty:1,
+   scores:{scene:2,power:4,easy:5,collab:4,cost:5}}
+];
+
+const SCORE_LABELS = {scene:'场景适用',power:'功能强度',easy:'上手难度',collab:'协作支持',cost:'费用友好'};
+const SCORE_COLORS = ['#10b981','#3b82f6','#f59e0b','#8b5cf6','#f43f5e'];
+
+let selectedIds = [];
+let currentGroup = 'all';
+
+function filterGroup(group) {
+  currentGroup = group;
+  document.querySelectorAll('.group-tab').forEach(t => t.classList.toggle('active', t.dataset.group===group));
+  renderToolGroups();
+}
+
+function getGroupedTools() {
+  const tools = currentGroup==='all' ? TOOLS : TOOLS.filter(t=>t.group===currentGroup);
+  const groups = {};
+  const GINFO = {
+    agent:{label:'AI Agent / 龙虾系',sub:'Agent 编排 · 自动化工作流 · AI 编程',icon:'🦞',color:'#fff0f3'},
+    chat:{label:'对话 & 推理',sub:'大模型问答 · 内容创作 · AI 搜索',icon:'💬',color:'#eff6ff'},
+    knowledge:{label:'知识库 & 协作',sub:'团队知识沉淀 · AI 问答 · 文档协作',icon:'📚',color:'#f5f3ff'},
+    image:{label:'图像 & 视频 & PPT',sub:'AI 生图 · 视频生成 · AI 演示',icon:'🎨',color:'#fffbeb'},
+    efficiency:{label:'效率 & 数据',sub:'会议纪要 · 舆情监控 · 数据搜索',icon:'⚡',color:'#f0fdf4'}
+  };
+  if (currentGroup==='all') {
+    Object.keys(GINFO).forEach(g => { groups[g] = { info: GINFO[g], tools: tools.filter(t=>t.group===g) }; });
+  } else {
+    groups[currentGroup] = { info: GINFO[currentGroup], tools };
+  }
+  return groups;
+}
+
+function renderToolGroups() {
+  const container = document.getElementById('toolGroups');
+  const groups = getGroupedTools();
+  container.innerHTML = Object.entries(groups).map(([key,{info,tools}]) => {
+    if (!tools.length) return '';
+    return `<div class="group-section">
+      <div class="group-header">
+        <div class="group-icon" style="background:${info.color};">${info.icon}</div>
+        <div><div class="group-title">${info.label}</div><div style="font-size:12px;color:var(--text-sub);">${info.sub}</div></div>
+        <span class="group-count">${tools.length} 个工具</span>
+      </div>
+      <div class="tools-grid">
+        ${tools.map(t=>buildCard(t)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  // Update selected state
+  document.querySelectorAll('.tool-card').forEach(card => {
+    if (selectedIds.includes(card.dataset.id)) {
+      card.classList.add('selected');
+      card.querySelector('.select-checkbox').classList.add('checked');
+      card.querySelector('.check-mark').style.display='block';
+    }
+  });
+}
+
+function buildCard(tool) {
+  const tags = (tool.tags||[]).map(t=>`<span class="tag ${t.cls}">${t.text}</span>`).join('');
+  const scoreItems = Object.entries(SCORE_LABELS).slice(0,3).map(([k,lbl],i) => {
+    const val = tool.scores[k];
+    const pct = val/5*100;
+    return `<div class="score-row">
+      <span class="score-lbl">${lbl}</span>
+      <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${SCORE_COLORS[i]};"></div></div>
+      <span class="score-val" style="color:${SCORE_COLORS[i]};">${val}</span>
+    </div>`;
+  }).join('');
+  return `<div class="tool-card" data-id="${tool.id}">
+    <div class="select-overlay">
+      <div class="select-checkbox" onclick="toggleSelect('${tool.id}',event)"><span class="check-mark">✓</span></div>
+    </div>
+    <div class="card-top">
+      <div class="card-icon">${tool.icon}</div>
+      <div class="card-head">
+        <div class="card-name">${tool.name}</div>
+        <div class="card-tag-row">${tags}</div>
+      </div>
+    </div>
+    <div class="card-desc">${tool.desc}</div>
+    <div class="card-scores">${scoreItems}</div>
+    <div class="card-footer">
+      <a class="card-btn card-btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener">🚀 打开</a>
+      <button class="card-btn card-btn-ghost" onclick="showModal('${tool.id}')">详情</button>
+    </div>
+  </div>`;
+}
+
+function toggleSelect(id, event) {
+  event.stopPropagation();
+  const idx = selectedIds.indexOf(id);
+  if (idx >= 0) {
+    selectedIds.splice(idx, 1);
+  } else {
+    if (selectedIds.length >= 5) { alert('最多同时对比 5 个工具'); return; }
+    selectedIds.push(id);
+  }
+  // Update card UI
+  document.querySelectorAll(`.tool-card[data-id="${id}"]`).forEach(card => {
+    const inSel = selectedIds.includes(id);
+    card.classList.toggle('selected', inSel);
+    card.querySelectorAll('.select-checkbox').forEach(cb => {
+      cb.classList.toggle('checked', inSel);
+      cb.querySelector('.check-mark').style.display = inSel ? 'block' : 'none';
+    });
+  });
+  updateCompareBar();
+}
+window.toggleSelect = toggleSelect;
+
+function updateCompareBar() {
+  const sel = document.getElementById('compareSelected');
+  const empty = document.getElementById('compareEmpty');
+  if (selectedIds.length === 0) {
+    sel.innerHTML = '<span class="compare-empty" id="compareEmpty">👆 勾选工具后点击"开始对比"</span>';
+  } else {
+    sel.innerHTML = selectedIds.map(id => {
+      const t = TOOLS.find(x=>x.id===id);
+      return `<div class="compare-chip">${t.icon} ${t.name}<div class="compare-chip-remove" onclick="toggleSelect('${id}',event)">×</div></div>`;
+    }).join('');
+  }
+}
+
+function clearCompare() {
+  selectedIds = [];
+  document.querySelectorAll('.tool-card').forEach(c => {
+    c.classList.remove('selected');
+    c.querySelectorAll('.select-checkbox').forEach(cb=>{cb.classList.remove('checked');cb.querySelector('.check-mark').style.display='none';});
+  });
+  updateCompareBar();
+  document.getElementById('compareResult').innerHTML = '';
+}
+window.clearCompare = clearCompare;
+
+function doCompare() {
+  if (selectedIds.length < 2) { alert('请至少选择 2 个工具进行对比'); return; }
+  const tools = selectedIds.map(id => TOOLS.find(t=>t.id===id));
+  const scoreKeys = Object.keys(SCORE_LABELS);
+
+  // 找出各维度最高分
+  const maxScores = {};
+  scoreKeys.forEach(k => { maxScores[k] = Math.max(...tools.map(t=>t.scores[k])); });
+
+  function stars(val) {
+    return [...Array(5)].map((_,i)=>`<span class="${i<val?'star-fill':'star-empty'}">★</span>`).join('');
+  }
+  function dots(val, isMax) {
+    return `<div class="score-dots">${[...Array(5)].map((_,i)=>`<div class="${i<val?'sdot-fill':'sdot-empty'}" style="${i<val&&isMax?'background:#f59e0b;':''};"></div>`).join('')}</div>`;
+  }
+
+  // 总结推荐
+  const overall = tools.map(t => ({id:t.id, name:t.name, icon:t.icon, sum: Object.values(t.scores).reduce((a,b)=>a+b,0)}));
+  const winner = overall.sort((a,b)=>b.sum-a.sum)[0];
+
+  const tableHTML = `
+    <div class="compare-table-section">
+      <div class="compare-table-title">⚖️ 工具对比：${tools.map(t=>t.icon+' '+t.name).join(' vs ')}</div>
+      <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="min-width:100px;">对比维度</th>
+            ${tools.map(t=>`<th class="tool-col">${t.icon} ${t.name}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="compare-row-label">适用场景</td>
+            ${tools.map(t=>`<td style="font-size:12px;color:var(--text-sub);">${t.desc.slice(0,40)}...</td>`).join('')}
+          </tr>
+          <tr>
+            <td class="compare-row-label">使用权限</td>
+            ${tools.map(t=>`<td><span style="font-size:12px;font-weight:600;">${t.access}</span></td>`).join('')}
+          </tr>
+          <tr>
+            <td class="compare-row-label">费用</td>
+            ${tools.map(t=>`<td style="font-size:12px;">${t.cost}</td>`).join('')}
+          </tr>
+          ${scoreKeys.map((k,i) => `<tr>
+            <td class="compare-row-label">${SCORE_LABELS[k]}</td>
+            ${tools.map(t=>`<td>
+              ${dots(t.scores[k], t.scores[k]===maxScores[k])}
+              ${t.scores[k]===maxScores[k]?`<span class="winner-badge">最高</span>`:''}
+            </td>`).join('')}
+          </tr>`).join('')}
+          <tr style="background:var(--primary-light);">
+            <td class="compare-row-label" style="font-weight:800;color:var(--text);">综合评分</td>
+            ${tools.map(t=>{
+              const sum = Object.values(t.scores).reduce((a,b)=>a+b,0);
+              const isWinner = t.id===winner.id;
+              return `<td><span style="font-size:18px;font-weight:800;color:${isWinner?'var(--orange)':'var(--text-sub)'};">${sum}</span>${isWinner?'<span class="winner-badge" style="background:var(--orange-light);color:var(--orange);">推荐</span>':''}</td>`;
+            }).join('')}
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="recommend-banner">
+        <div class="recommend-icon">💡</div>
+        <div class="recommend-text">
+          <strong>推荐选择：${winner.icon} ${winner.name}</strong> — 综合评分最高（${winner.sum}/25）<br/>
+          当然，最适合的工具取决于你的具体使用场景。点击各工具卡片查看使用技巧，结合自身需求做最终决策。
+        </div>
+      </div>
+    </div>`;
+
+  const result = document.getElementById('compareResult');
+  result.innerHTML = tableHTML;
+  result.scrollIntoView({behavior:'smooth', block:'start'});
+}
+window.doCompare = doCompare;
+
+// Modal
+const overlay = document.getElementById('modalOverlay');
+window.showModal = function(id) {
+  const t = TOOLS.find(x=>x.id===id);
+  if (!t) return;
+  document.getElementById('modalIcon').textContent = t.icon;
+  document.getElementById('modalName').textContent = t.name;
+  document.getElementById('modalTags').innerHTML = (t.tags||[]).map(tg=>`<span class="tag ${tg.cls}">${tg.text}</span>`).join('');
+  document.getElementById('modalDesc').textContent = t.fullDesc;
+  document.getElementById('modalTip').textContent = t.tip;
+  document.getElementById('modalLinks').innerHTML = t.links.map((l,i)=>`
+    <a class="modal-link ${i===0?'p':''}" href="${l.url}" target="_blank" rel="noopener">
+      <div class="modal-link-icon">${l.icon}</div>
+      <div class="modal-link-body"><div class="modal-link-label">${l.label}</div><div class="modal-link-url">${l.url}</div></div>
+      <div class="modal-link-arrow">↗</div>
+    </a>`).join('');
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+};
+function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('modalClose').addEventListener('click',closeModal);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+renderToolGroups();
+</script>
+</body>
+</html>

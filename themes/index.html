@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI 图鉴 · 15 款主题预览</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+:root{--bg:#0f0f13;--bg2:#18181f;--bg3:#22222c;--text:#f0eeff;--text-2:#9996bb;--text-3:#5a5878;--border:rgba(255,255,255,.08);--font:'Inter',-apple-system,"PingFang SC",sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding:48px 28px 80px;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(124,58,237,.12),transparent);pointer-events:none;}
+h1{font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-.04em;text-align:center;margin-bottom:12px;background:linear-gradient(135deg,#a78bfa,#f472b6,#38bdf8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{text-align:center;font-size:15px;color:var(--text-2);margin-bottom:48px;line-height:1.7;}
+.subtitle strong{color:var(--text);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;max-width:1200px;margin:0 auto;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;display:flex;flex-direction:column;position:relative;}
+.card:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.3);box-shadow:0 12px 40px rgba(124,58,237,.2);}
+.card-preview{height:130px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden;flex-shrink:0;}
+.v1 .card-preview{background:linear-gradient(135deg,#0a0f0a,#0d1a0a);border-bottom:1px solid rgba(0,255,70,.2);}
+.v2 .card-preview{background:linear-gradient(135deg,#faf5f0,#f0e8de);border-bottom:1px solid #e8d5c4;}
+.v3 .card-preview{background:linear-gradient(135deg,#030b1a,#061224);border-bottom:1px solid rgba(0,128,255,.2);}
+.v4 .card-preview{background:linear-gradient(135deg,#0c0e12,#141820);border-bottom:1px solid rgba(255,122,0,.2);}
+.v5 .card-preview{background:linear-gradient(135deg,#fff3e6,#ffecd5);border-bottom:1px solid rgba(255,107,0,.15);}
+.v6 .card-preview{background:linear-gradient(135deg,#eef2e8,#d8f3dc);border-bottom:1px solid rgba(45,106,79,.15);}
+.v7 .card-preview{background:linear-gradient(135deg,#fffef9,#fff);border-bottom:3px solid #1a1a2e;}
+.v8 .card-preview{background:linear-gradient(135deg,#f5f5f3,#eeeeec);border-bottom:1px solid #e0e0dd;}
+.v9 .card-preview{background:linear-gradient(135deg,#07060e,#0d0c1a);border-bottom:1px solid rgba(124,58,237,.2);}
+.v10 .card-preview{background:#ffffff;border-bottom:1px solid #e5e5e5;}
+/* 装饰元素 */
+.v1 .card-preview::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,255,70,.04) 4px,rgba(0,255,70,.04) 5px);}
+.v7 .card-preview::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(30,30,50,.05) 1px,transparent 1px);background-size:20px 20px;}
+.v9 .card-preview::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.2),transparent),radial-gradient(ellipse at 70% 50%,rgba(219,39,119,.15),transparent);}
+.card-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.card-num{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+.card-title{font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.02em;}
+.card-desc{font-size:12.5px;color:var(--text-2);line-height:1.6;flex:1;}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.ctag{font-size:10.5px;padding:2px 8px;border-radius:4px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:var(--text-2);}
+.card-link{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid var(--border);background:rgba(255,255,255,.02);font-size:12.5px;font-weight:600;color:rgba(167,139,250,.8);text-decoration:none;transition:all .2s;}
+.card-link:hover{color:#a78bfa;background:rgba(124,58,237,.06);}
+.card-link span{font-size:14px;}
+/* 颜色标识线 */
+.card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0;transition:opacity .3s;border-radius:16px 0 0 16px;}
+.card:hover::after{opacity:1;}
+.v1::after,.v3::after,.v4::after,.v9::after{background:linear-gradient(180deg,#00ff46,#00ffff);}
+.v2::after{background:linear-gradient(180deg,#e8b4c4,#a8c5a0);}
+.v5::after{background:linear-gradient(180deg,#ff6b00,#ffaa55);}
+.v6::after{background:linear-gradient(180deg,#2d6a4f,#52b788);}
+.v7::after{background:linear-gradient(180deg,#ff3b4e,#ffe600,#1e6fff);}
+.v8::after{background:linear-gradient(180deg,#2c5fe4,#9b59b6);}
+.v10::after{background:linear-gradient(180deg,#2f81f7,#0f7b6c);}
+.top-bar{text-align:center;margin-bottom:16px;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(167,139,250,.7);border:1px solid rgba(167,139,250,.2);border-radius:20px;padding:4px 14px;margin-bottom:20px;background:rgba(124,58,237,.06);}
+.footer{text-align:center;margin-top:48px;font-size:12.5px;color:var(--text-3);}
+@media(max-width:640px){body{padding:28px 16px 60px;}.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="badge">✦ 10 THEMES SHOWCASE</div>
+<h1>AI 图鉴 · 10 款设计风格</h1>
+<p class="subtitle">工具数据与分类<strong>完全相同</strong>，仅视觉风格不同 &nbsp;|&nbsp; 点击卡片直接预览 &nbsp;|&nbsp; 找到你最喜欢的那一款</p>
+<div class="grid">
+
+<div class="card v1">
+  <div class="card-preview">💻</div>
+  <div class="card-body">
+    <div class="card-num">版本 01</div>
+    <div class="card-title">暗黑赛博朋克</div>
+    <div class="card-desc">深黑底色 + 霓虹绿/紫/青 + Share Tech Mono 等宽字体，终端风格扫描线动效，Matrix 感爆棚</div>
+    <div class="card-tags"><span class="ctag">黑色背景</span><span class="ctag">霓虹绿</span><span class="ctag">等宽字体</span></div>
+  </div>
+  <a class="card-link" href="v1-cyberpunk.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v2">
+  <div class="card-preview">🌸</div>
+  <div class="card-body">
+    <div class="card-num">版本 02</div>
+    <div class="card-title">日系和风简约</div>
+    <div class="card-desc">米白底色 + 樱花粉 + 墨绿配色 + Noto Serif SC 衬线字体，极简留白，竹纹背景纹理</div>
+    <div class="card-tags"><span class="ctag">米白底色</span><span class="ctag">樱花粉</span><span class="ctag">衬线字体</span></div>
+  </div>
+  <a class="card-link" href="v2-japanese.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v3">
+  <div class="card-preview">🌊</div>
+  <div class="card-body">
+    <div class="card-num">版本 03</div>
+    <div class="card-title">深海玻璃拟态</div>
+    <div class="card-desc">深蓝渐变背景 + backdrop-filter 毛玻璃卡片 + 浮动粒子动效，科技感与通透感兼得</div>
+    <div class="card-tags"><span class="ctag">深蓝背景</span><span class="ctag">玻璃拟态</span><span class="ctag">粒子效果</span></div>
+  </div>
+  <a class="card-link" href="v3-glassmorphism.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v4">
+  <div class="card-preview">🎮</div>
+  <div class="card-body">
+    <div class="card-num">版本 04</div>
+    <div class="card-title">游戏 HUD 界面</div>
+    <div class="card-desc">Orbitron 字体 + 橙色边框 + 切角 UI 元素 + 扫描线，像极了 FPS 游戏的抬头显示界面</div>
+    <div class="card-tags"><span class="ctag">黑色背景</span><span class="ctag">橙色描边</span><span class="ctag">切角UI</span></div>
+  </div>
+  <a class="card-link" href="v4-game-hud.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v5">
+  <div class="card-preview">🧡</div>
+  <div class="card-body">
+    <div class="card-num">版本 05</div>
+    <div class="card-title">活力暖橙色调</div>
+    <div class="card-desc">暖白底色 + 橙色渐变主调，圆角卡片 + 悬浮阴影，年轻有活力，适合日常推广使用</div>
+    <div class="card-tags"><span class="ctag">暖色调</span><span class="ctag">橙色渐变</span><span class="ctag">圆角卡片</span></div>
+  </div>
+  <a class="card-link" href="v5-warm-orange.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v6">
+  <div class="card-preview">🌿</div>
+  <div class="card-body">
+    <div class="card-num">版本 06</div>
+    <div class="card-title">自然绿色有机风</div>
+    <div class="card-desc">亚麻绿底 + 深森林绿主色 + 大地棕配色，圆形头像 + 植物纹理，贴近自然的清新氛围</div>
+    <div class="card-tags"><span class="ctag">亚麻绿</span><span class="ctag">自然配色</span><span class="ctag">有机感</span></div>
+  </div>
+  <a class="card-link" href="v6-nature-green.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v7">
+  <div class="card-preview">🎨</div>
+  <div class="card-body">
+    <div class="card-num">版本 07</div>
+    <div class="card-title">孟菲斯波普艺术</div>
+    <div class="card-desc">Fredoka One 艺术字体 + 3D 阴影按钮 + 网格背景 + 彩色描边，波普艺术大胆玩色风格</div>
+    <div class="card-tags"><span class="ctag">白色背景</span><span class="ctag">波普色彩</span><span class="ctag">粗描边</span></div>
+  </div>
+  <a class="card-link" href="v7-memphis-pop.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v8">
+  <div class="card-preview">🏔️</div>
+  <div class="card-body">
+    <div class="card-num">版本 08</div>
+    <div class="card-title">北欧极简灰调</div>
+    <div class="card-desc">Inter 字体 + 暖灰色系 + 超细边框 + 极简排版，每个元素恰到好处，无一多余</div>
+    <div class="card-tags"><span class="ctag">暖灰色</span><span class="ctag">极简主义</span><span class="ctag">细边框</span></div>
+  </div>
+  <a class="card-link" href="v8-nordic-minimal.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v9">
+  <div class="card-preview">✨</div>
+  <div class="card-body">
+    <div class="card-num">版本 09</div>
+    <div class="card-title">霓虹渐变未来感</div>
+    <div class="card-desc">Space Grotesk 字体 + 紫→粉→蓝三色渐变 + 光晕背景 + 渐变边框卡片，充满 2025 年 AI 产品美学</div>
+    <div class="card-tags"><span class="ctag">黑色背景</span><span class="ctag">紫粉渐变</span><span class="ctag">光晕效果</span></div>
+  </div>
+  <a class="card-link" href="v9-neon-gradient.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v10">
+  <div class="card-preview">📄</div>
+  <div class="card-body">
+    <div class="card-num">版本 10</div>
+    <div class="card-title">Notion 极简主义</div>
+    <div class="card-desc">Geist 字体 + 纯白背景 + 黑白极简配色 + 精简间距，像 Notion 文档一样清晰干净，零干扰</div>
+    <div class="card-tags"><span class="ctag">纯白背景</span><span class="ctag">黑白色调</span><span class="ctag">文档感</span></div>
+  </div>
+  <a class="card-link" href="v10-notion-style.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+
+<div class="card v11" style="--v11-bg:linear-gradient(135deg,#f8f9fb,#f0f4ff);">
+  <div class="card-preview" style="background:linear-gradient(135deg,#f0f4ff,#e8f0fe);border-bottom:1px solid rgba(37,99,235,.15);">🗺️</div>
+  <div class="card-body">
+    <div class="card-num">版本 11 · 实用新增</div>
+    <div class="card-title">任务导向版</div>
+    <div class="card-desc">按使用场景推荐工具组合路线，6 大任务场景：写文案 · 数据分析 · 做图制视频 · 建知识库 · 搭 Agent · 开会纪要</div>
+    <div class="card-tags"><span class="ctag">场景路线</span><span class="ctag">工具组合</span><span class="ctag">实用导向</span></div>
+  </div>
+  <a class="card-link" href="v11-task-guide.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v12" style="">
+  <div class="card-preview" style="background:linear-gradient(135deg,#0d1117,#161b22);border-bottom:1px solid rgba(88,166,255,.15);">📊</div>
+  <div class="card-body">
+    <div class="card-num">版本 12 · 实用新增</div>
+    <div class="card-title">数据可视化大屏版</div>
+    <div class="card-desc">仿 Omega 看板设计，工具热度排行榜 + 分类热力图 + 能力矩阵，数据驱动决策，适合团队选型参考</div>
+    <div class="card-tags"><span class="ctag">数据大屏</span><span class="ctag">热度排行</span><span class="ctag">能力矩阵</span></div>
+  </div>
+  <a class="card-link" href="v12-data-dashboard.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v13">
+  <div class="card-preview" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-bottom:1px solid rgba(124,58,237,.15);">🎓</div>
+  <div class="card-body">
+    <div class="card-num">版本 13 · 实用新增</div>
+    <div class="card-title">学习路径版</div>
+    <div class="card-desc">入门 → 进阶 → 专家三阶段，每个工具含 KM 实践文章 + 30 分钟上手任务，支持学习进度追踪</div>
+    <div class="card-tags"><span class="ctag">学习路径</span><span class="ctag">进度追踪</span><span class="ctag">KM 文章</span></div>
+  </div>
+  <a class="card-link" href="v13-learning-path.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v14">
+  <div class="card-preview" style="background:linear-gradient(135deg,#eff6ff,#e0f2fe);border-bottom:1px solid rgba(37,99,235,.12);">⚖️</div>
+  <div class="card-body">
+    <div class="card-num">版本 14 · 实用新增</div>
+    <div class="card-title">对比决策版</div>
+    <div class="card-desc">勾选 2-5 个同类工具一键生成对比表，场景适用性 + 功能强度 + 上手难度 + 费用友好 综合评分推荐</div>
+    <div class="card-tags"><span class="ctag">横向对比</span><span class="ctag">评分矩阵</span><span class="ctag">选型决策</span></div>
+  </div>
+  <a class="card-link" href="v14-compare-decision.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+<div class="card v15">
+  <div class="card-preview" style="background:linear-gradient(135deg,#f2f3f7,#eef0ff);border-bottom:1px solid rgba(79,110,247,.12);">📱</div>
+  <div class="card-body">
+    <div class="card-num">版本 15 · 实用新增</div>
+    <div class="card-title">移动端优先版</div>
+    <div class="card-desc">仿超级 App 交互：底部导航 + 浮动搜索 + 底部弹出详情 + 收藏 / 热榜 / 我的，手机浏览极致体验</div>
+    <div class="card-tags"><span class="ctag">移动端优先</span><span class="ctag">底部导航</span><span class="ctag">App 感</span></div>
+  </div>
+  <a class="card-link" href="v15-mobile-first.html" target="_blank">立即预览 <span>→</span></a>
+</div>
+
+</div>
+<div class="footer">版本 01-10 为视觉风格版 &nbsp;·&nbsp; 版本 11-15 为功能实用版 &nbsp;·&nbsp; 选中后告诉 Knot 你想用哪一款</div>
+</body>
+</html>

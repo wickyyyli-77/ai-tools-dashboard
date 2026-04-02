@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI 工具图鉴 v12 · 数据看板版</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #1c2128;
+  --bg4: #21262d;
+  --primary: #58a6ff;
+  --primary-dark: #1f6feb;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --purple: #bc8cff;
+  --orange: #fb8500;
+  --cyan: #39d5cc;
+  --text: #e6edf3;
+  --text-sub: #8b949e;
+  --text-dim: #484f58;
+  --border: #30363d;
+  --border-bright: #484f58;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;border:none;cursor:pointer;background:none;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:3px;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:300;height:52px;background:rgba(13,17,23,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;}
+.nav-logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;flex-shrink:0;}
+.nav-logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--primary),var(--purple));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.nav-divider{width:1px;height:18px;background:var(--border);}
+.nav-tabs{display:flex;gap:2px;}
+.nav-tab{font-size:12.5px;font-weight:500;color:var(--text-sub);padding:4px 12px;border-radius:6px;cursor:pointer;transition:all .15s;}
+.nav-tab:hover{color:var(--text);background:var(--bg4);}
+.nav-tab.active{color:var(--text);background:var(--bg4);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-search{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:0 10px;height:30px;}
+.nav-search input{background:none;border:none;outline:none;font-size:12px;color:var(--text);width:180px;}
+.nav-search input::placeholder{color:var(--text-dim);}
+.nav-btn{font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;background:var(--primary-dark);color:#fff;transition:background .15s;}
+.nav-btn:hover{background:var(--primary);}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 52px);}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px 12px;}
+.sidebar-section{margin-bottom:20px;}
+.sidebar-title{font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding:0 8px;}
+.sidebar-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:12.5px;color:var(--text-sub);cursor:pointer;transition:all .15s;}
+.sidebar-item:hover{background:var(--bg3);color:var(--text);}
+.sidebar-item.active{background:rgba(88,166,255,.12);color:var(--primary);}
+.sidebar-item .dot{width:7px;height:7px;border-radius:50%;}
+.sidebar-count{margin-left:auto;font-size:10.5px;color:var(--text-dim);background:var(--bg3);padding:1px 6px;border-radius:10px;}
+
+/* MAIN */
+.main{padding:20px;overflow:auto;}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;}
+.stat-card-icon{width:38px;height:38px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.stat-card-body{}
+.stat-card-value{font-size:24px;font-weight:800;line-height:1;margin-bottom:4px;}
+.stat-card-label{font-size:11px;color:var(--text-sub);}
+.stat-card-delta{font-size:11px;margin-top:4px;font-weight:600;}
+.delta-up{color:var(--green);}
+.delta-down{color:var(--red);}
+
+/* CHARTS GRID */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.chart-title{font-size:13px;font-weight:700;color:var(--text);}
+.chart-badge{font-size:10.5px;color:var(--text-sub);background:var(--bg3);padding:2px 8px;border-radius:10px;}
+.chart-card.wide{grid-column:span 2;}
+
+/* BAR CHART */
+.bar-list{display:flex;flex-direction:column;gap:10px;}
+.bar-item{display:flex;align-items:center;gap:10px;}
+.bar-label{font-size:12px;color:var(--text-sub);width:100px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-wrap{flex:1;height:20px;background:var(--bg3);border-radius:4px;overflow:hidden;position:relative;}
+.bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.16,1,0.3,1);display:flex;align-items:center;padding-left:8px;}
+.bar-val{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.85);white-space:nowrap;}
+.bar-rank{font-size:10.5px;color:var(--text-dim);width:22px;text-align:center;flex-shrink:0;}
+
+/* RADAR / MATRIX */
+.radar-wrap{display:flex;align-items:center;justify-content:center;padding:8px 0;}
+.radar-svg{width:240px;height:240px;}
+
+/* CATEGORY HEAT MAP */
+.heatmap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.heat-cell{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:transform .15s;border:1px solid var(--border);}
+.heat-cell:hover{transform:scale(1.06);}
+.heat-cell .heat-name{font-size:9.5px;color:var(--text-sub);margin-top:4px;text-align:center;line-height:1.3;}
+.heat-cell .heat-cnt{font-size:13px;font-weight:800;margin-bottom:1px;}
+
+/* TOOL TABLE */
+.tool-table-wrap{overflow-x:auto;}
+.tool-table{width:100%;border-collapse:collapse;font-size:12px;}
+.tool-table th{font-size:10.5px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.tool-table td{padding:10px 12px;border-bottom:1px solid rgba(48,54,61,.6);vertical-align:middle;}
+.tool-table tr:hover td{background:var(--bg3);}
+.tool-name-cell{display:flex;align-items:center;gap:8px;}
+.tool-emoji{font-size:16px;}
+.tool-name-text{font-weight:600;color:var(--text);}
+.tool-tag-cell{display:flex;gap:4px;flex-wrap:wrap;}
+.tt{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;}
+.tt-inner{background:rgba(88,166,255,.15);color:var(--primary);}
+.tt-free{background:rgba(63,185,80,.15);color:var(--green);}
+.tt-hot{background:rgba(251,133,0,.15);color:var(--orange);}
+.tt-new{background:rgba(188,140,255,.15);color:var(--purple);}
+.tt-claw{background:rgba(248,81,73,.15);color:var(--red);}
+.score-dot{display:inline-flex;gap:2px;}
+.dot-filled{width:8px;height:8px;border-radius:2px;background:var(--primary);}
+.dot-empty{width:8px;height:8px;border-radius:2px;background:var(--bg3);border:1px solid var(--border);}
+.action-btn{font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--text-sub);transition:all .15s;white-space:nowrap;}
+.action-btn:hover{border-color:var(--primary);color:var(--primary);}
+.action-btn.primary{background:var(--primary-dark);border-color:transparent;color:#fff;}
+.action-btn.primary:hover{background:var(--primary);}
+
+/* TREND SPARKLINE */
+.sparkline-row{display:flex;gap:6px;align-items:flex-end;height:30px;}
+.spark-bar{width:8px;border-radius:2px 2px 0 0;transition:height .4s;}
+
+/* LEGEND */
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sub);}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 16px 48px rgba(0,0,0,.5);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;transform:scale(.97) translateY(12px);transition:transform .2s;}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-header{padding:20px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;background:var(--bg2);z-index:1;}
+.modal-icon{width:46px;height:46px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);}
+.modal-meta{flex:1;}
+.modal-name{font-size:16px;font-weight:800;color:var(--text);}
+.modal-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.modal-close{width:26px;height:26px;border-radius:6px;background:var(--bg3);color:var(--text-sub);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;flex-shrink:0;transition:background .15s;}
+.modal-close:hover{background:var(--bg4);color:var(--red);}
+.modal-body{padding:18px 20px 22px;}
+.modal-desc{font-size:13px;color:var(--text-sub);line-height:1.75;margin-bottom:18px;}
+.modal-label{font-size:10.5px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.modal-links{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.modal-link{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg3);transition:border-color .15s;text-decoration:none;}
+.modal-link:hover{border-color:var(--primary);}
+.modal-link.primary{border-color:var(--primary);}
+.modal-link-icon{width:28px;height:28px;border-radius:6px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.modal-link-text{flex:1;min-width:0;}
+.modal-link-label{font-size:12.5px;font-weight:600;color:var(--text);}
+.modal-link-url{font-size:11px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.modal-link-arrow{font-size:13px;color:var(--primary);}
+.modal-tip{background:rgba(88,166,255,.07);border:1px solid rgba(88,166,255,.2);border-radius:var(--radius);padding:11px 13px;font-size:12px;color:var(--text-sub);line-height:1.65;}
+.modal-tip-label{font-size:10px;font-weight:700;color:var(--primary);margin-bottom:5px;letter-spacing:.06em;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .stat-row{grid-template-columns:repeat(2,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+  .chart-card.wide{grid-column:span 1;}
+}
+@media(max-width:540px){.stat-row{grid-template-columns:1fr 1fr;}.heatmap-grid{grid-template-columns:repeat(4,1fr);}}
+
+mark{background:rgba(210,153,34,.35);color:#d29922;border-radius:2px;padding:0 1px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">📊</div>
+    AI 工具图鉴 · 数据看板
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchView('dashboard')">📈 总览看板</div>
+    <div class="nav-tab" onclick="switchView('table')">📋 工具列表</div>
+    <div class="nav-tab" onclick="switchView('matrix')">🗺️ 能力矩阵</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input id="searchInput" type="text" placeholder="搜索工具..." autocomplete="off"/>
+    </div>
+    <a class="nav-btn" href="https://tokens.woa.com" target="_blank" rel="noopener">⚡ Token 用量</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">工具分类</div>
+      <div class="sidebar-item active" onclick="filterCat('all')" data-cat="all">
+        <div class="dot" style="background:#58a6ff;"></div> 全部工具
+        <span class="sidebar-count" id="cnt-all">30</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('c1a')" data-cat="c1a">
+        <div class="dot" style="background:#f85149;"></div> 🦞 龙虾家族
+        <span class="sidebar-count" id="cnt-c1a">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('c1b')" data-cat="c1b">
+        <div class="dot" style="background:#58a6ff;"></div> 💬 对话助手
+        <span class="sidebar-count" id="cnt-c1b">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('c2')" data-cat="c2">
+        <div class="dot" style="background:#bc8cff;"></div> 📚 知识库
+        <span class="sidebar-count" id="cnt-c2">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('c3')" data-cat="c3">
+        <div class="dot" style="background:#d29922;"></div> 🎨 AI 创造
+        <span class="sidebar-count" id="cnt-c3">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('c4')" data-cat="c4">
+        <div class="dot" style="background:#3fb950;"></div> ⚡ 效率提升
+        <span class="sidebar-count" id="cnt-c4">0</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">标签筛选</div>
+      <div class="sidebar-item" onclick="filterTag('inner')" data-tag="inner"><span style="font-size:13px;">🏢</span> 司内工具 <span class="sidebar-count" id="cnt-inner">0</span></div>
+      <div class="sidebar-item" onclick="filterTag('free')" data-tag="free"><span style="font-size:13px;">🆓</span> 免费使用 <span class="sidebar-count" id="cnt-free">0</span></div>
+      <div class="sidebar-item" onclick="filterTag('hot')" data-tag="hot"><span style="font-size:13px;">🔥</span> 本周热门 <span class="sidebar-count" id="cnt-hot">0</span></div>
+      <div class="sidebar-item" onclick="filterTag('new')" data-tag="new"><span style="font-size:13px;">✨</span> 近期新增 <span class="sidebar-count" id="cnt-new">0</span></div>
+    </div>
+  </aside>
+
+  <main class="main" id="mainContent">
+    <!-- Dashboard View -->
+    <div id="view-dashboard">
+      <!-- Stat Cards -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:rgba(88,166,255,.12);">🧰</div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" style="color:var(--primary);" id="statTotal">30</div>
+            <div class="stat-card-label">精选工具总数</div>
+            <div class="stat-card-delta delta-up">↑ +5 本月新增</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:rgba(63,185,80,.12);">🏢</div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" style="color:var(--green);" id="statInner">0</div>
+            <div class="stat-card-label">司内工具数量</div>
+            <div class="stat-card-delta delta-up">↑ 覆盖率持续上升</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:rgba(248,81,73,.12);">🦞</div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" style="color:var(--red);" id="statClaw">0</div>
+            <div class="stat-card-label">龙虾系工具</div>
+            <div class="stat-card-delta delta-up">KM 本周最热话题</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:rgba(251,133,0,.12);">🔥</div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" style="color:var(--orange);" id="statHot">0</div>
+            <div class="stat-card-label">本周热门推荐</div>
+            <div class="stat-card-delta delta-up">↑ 热度稳定上涨</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-row">
+        <!-- 热度排行 -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🔥 工具热度排行 <small style="color:var(--text-dim);font-size:10px;">（基于 KM 热文关联度）</small></div>
+            <div class="chart-badge">TOP 8</div>
+          </div>
+          <div class="bar-list" id="hotBarList"></div>
+        </div>
+
+        <!-- 分类占比 -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🗂️ 工具场景分布</div>
+            <div class="chart-badge">5 大类</div>
+          </div>
+          <div class="heatmap-grid" id="catHeatmap"></div>
+          <div class="legend-row">
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(248,81,73,.6);"></div> 龙虾</div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(88,166,255,.6);"></div> 对话</div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(188,140,255,.6);"></div> 知识库</div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(210,153,34,.6);"></div> 创造</div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(63,185,80,.6);"></div> 效率</div>
+          </div>
+        </div>
+
+        <!-- 月度活跃度趋势 -->
+        <div class="chart-card wide">
+          <div class="chart-header">
+            <div class="chart-title">📈 工具使用场景 × 能力评分矩阵</div>
+            <div class="chart-badge">4 维度评估</div>
+          </div>
+          <div class="tool-table-wrap">
+            <table class="tool-table" id="matrixTable">
+              <thead>
+                <tr>
+                  <th>工具</th>
+                  <th>内容创作</th>
+                  <th>分析能力</th>
+                  <th>自动化</th>
+                  <th>协作能力</th>
+                  <th>上手难度</th>
+                  <th>快速访问</th>
+                </tr>
+              </thead>
+              <tbody id="matrixBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Token 指南 banner -->
+      <div style="background:linear-gradient(135deg,rgba(30,50,90,.6),rgba(30,30,60,.6));border:1px solid rgba(88,166,255,.3);border-radius:var(--radius-lg);padding:18px 22px;display:flex;align-items:center;gap:18px;margin-bottom:20px;">
+        <div style="font-size:28px;">⚡</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:4px;">查看你的 AI Token 消耗看板</div>
+          <div style="font-size:12px;color:var(--text-sub);">tokens.woa.com 可查 Knot / With / OpenClaw / CodeBuddy 内网版用量 · 合理分配 Token 提升利用效率</div>
+        </div>
+        <a href="https://tokens.woa.com" target="_blank" rel="noopener" style="flex-shrink:0;background:var(--primary-dark);color:#fff;padding:8px 16px;border-radius:7px;font-size:12.5px;font-weight:700;transition:background .15s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='var(--primary-dark)'">打开看板 →</a>
+        <a href="https://tencent.sso.copilot.tencent.com/profile/usage" target="_blank" rel="noopener" style="flex-shrink:0;border:1px solid var(--border);color:var(--text-sub);padding:8px 16px;border-radius:7px;font-size:12.5px;font-weight:700;transition:all .15s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-sub)'">CodeBuddy IDE →</a>
+      </div>
+    </div>
+
+    <!-- Table View -->
+    <div id="view-table" style="display:none;">
+      <div class="tool-table-wrap">
+        <table class="tool-table">
+          <thead>
+            <tr>
+              <th>#</th><th>工具名称</th><th>类别</th><th>标签</th><th>使用场景</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Matrix View -->
+    <div id="view-matrix" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;" id="matrixCards"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon" id="modalIcon"></div>
+      <div class="modal-meta"><div class="modal-name" id="modalName"></div><div class="modal-tags" id="modalTags"></div></div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-label">直达链接</div>
+      <div class="modal-links" id="modalLinks"></div>
+      <div class="modal-tip"><div class="modal-tip-label">💡 使用提示</div><div id="modalTips"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOOLS = [
+  {id:'knot',cat:'c1a',tags:['claw','inner','hot'],icon:'🪢',name:'Knot',scene:'Agent编排、知识库问答',desc:'腾讯官方龙虾工作台，Skill 市场 + 知识库挂载，零门槛入门 Agent。',fullDesc:'KnotClaw 是腾讯官方维护的 OpenClaw 集成版本，无需自部署，扫码即用。已接入混元、GPT-4o 等多模型；内置 Skill 市场（PPT 生成、文档总结、图片生成等）；支持知识库挂载。是"养虾"最零门槛的入口。',links:[{label:'🚀 立即打开 Knot',url:'https://knot.woa.com',icon:'🪢',primary:true},{label:'KM 龙虾全图鉴',url:'https://km.woa.com/articles/show/655461',icon:'📖'}],tip:'你正在使用的就是 KnotClaw，直接在对话框里 @ Skill 即可调用各种 AI 能力。',scores:{content:4,analysis:3,automation:5,collab:4},hot:95},
+  {id:'openclaw',cat:'c1a',tags:['claw','free'],icon:'🦞',name:'OpenClaw',scene:'自定义 Agent、进阶自动化',desc:'开源 AI Agent 平台，本地或远端部署，完全可控，支持接入各类模型和工具。',fullDesc:'OpenClaw 是 2026 年最火的 AI 工具之一。支持本地 Mac 部署或远程服务器部署；可接入 Gemini、Claude、混元等多种模型；通过 Skills 体系扩展能力无上限。适合想深度定制 AI 工作流的进阶用户。',links:[{label:'🚀 立即打开（内网）',url:'https://openclaw.woa.com',icon:'🦞',primary:true},{label:'KM 使用攻略',url:'https://km.woa.com/articles/show/653709',icon:'📖'}],tip:'进阶：用 Skills 体系把重复工作做成"一句话执行"的自动化流。',scores:{content:3,analysis:3,automation:5,collab:3},hot:82},
+  {id:'workbuddy',cat:'c1a',tags:['claw','inner','hot'],icon:'🤝',name:'WorkBuddy',scene:'企业级 Agent 搭建',desc:'企业级 AI Agent，0 代码搭建智能助手，接入知识库和工具链。',fullDesc:'WorkBuddy 是腾讯企业级 AI Agent 平台，可快速搭建专属 Agent。支持知识库对话、文件处理、自动化工作流。',links:[{label:'🚀 立即打开',url:'https://workbuddy.woa.com',icon:'🤝',primary:true}],tip:'WorkBuddy + FUE 平台打通后，可以自动部署验证，实现真正的 AI 全流程交付。',scores:{content:3,analysis:4,automation:5,collab:5},hot:88},
+  {id:'codebuddy',cat:'c1a',tags:['claw','inner','hot'],icon:'💻',name:'CodeBuddy',scene:'Vibe Coding、数据看板',desc:'腾讯 AI 编程 Agent，内嵌 VS Code，0 代码 Vibe Coding，快速搭建运营工具。',fullDesc:'CodeBuddy 是腾讯 AI 编程助手，内嵌在 VS Code 中。不懂代码也能用：描述需求 → AI 自动写代码 → 自动部署验证。',links:[{label:'🚀 立即打开',url:'https://codebuddy.qq.com',icon:'💻',primary:true},{label:'KM AI Native 手册',url:'https://km.woa.com/articles/show/655726',icon:'📖'}],tip:'用 CodeBuddy 建运营工具时，先描述清楚"我要什么数据""展示成什么样"，越具体效果越好。',scores:{content:2,analysis:5,automation:5,collab:3},hot:91},
+  {id:'vedas',cat:'c1a',tags:['inner','hot'],icon:'🧩',name:'Vedas',scene:'AI PPT、海报制作',desc:'腾讯内部多模态 AI Agent，不只是 PPT！连接 Skill 市场，多功能创作平台。',fullDesc:'Vedas 是腾讯内部多模态智能 Agent 平台，核心能力：AI PPT 生成（30 秒出稿）、AI 海报/图文生成、Skill 市场调用。',links:[{label:'🚀 立即打开 Vedas',url:'https://ai.woa.com/#/chat/dialog',icon:'🧩',primary:true},{label:'KM Vedas 实践',url:'https://km.woa.com/articles/show/654672',icon:'📖'}],tip:'Vedas 不只是 PPT 工具！通过 Skill 市场扩展，可以接入数据、生成海报、推送企微。',scores:{content:5,analysis:2,automation:4,collab:4},hot:79},
+  {id:'deepseek',cat:'c1b',tags:['free','hot'],icon:'🌊',name:'DeepSeek',scene:'深度推理、策划分析',desc:'国产顶级推理大模型，Deep Think 质量媲美 o3，复杂分析首选。',fullDesc:'DeepSeek 是国产顶级推理模型，Deep Think（R1）模式下进行多步骤推理。适合做竞品深度分析、活动方案头脑风暴、长文档总结。免费额度充足。',links:[{label:'🚀 立即打开',url:'https://chat.deepseek.com',icon:'🌊',primary:true}],tip:'复杂推理任务开启 DeepThink (R1) 模式，效果显著好于默认。分析报告、策划大纲必用这个模式。',scores:{content:5,analysis:5,automation:2,collab:2},hot:85},
+  {id:'doubao',cat:'c1b',tags:['free'],icon:'🫘',name:'豆包',scene:'文案润色、创意头脑风暴',desc:'字节出品，文案生成润色一流，移动端体验极佳，随手可用。',fullDesc:'豆包是字节跳动推出的 AI 助手，适合快速生成文案初稿、润色内容、做创意头脑风暴。移动端 App 体验非常丝滑。',links:[{label:'🚀 立即打开',url:'https://www.doubao.com',icon:'🫘',primary:true}],tip:'豆包有"学习"功能，可定制持久角色（如"游戏内容专家"），让每次对话都更精准有效。',scores:{content:5,analysis:3,automation:2,collab:2},hot:72},
+  {id:'hunyuan',cat:'c1b',tags:['inner'],icon:'🌀',name:'混元',scene:'涉密内容、司内文案',desc:'腾讯自研大模型，涉及内部信息时优先使用，数据安全合规。',fullDesc:'腾讯混元是司内基础大模型。涉及腾讯内部业务信息时，优先使用混元等司内模型，保障数据安全合规。',links:[{label:'🚀 立即打开',url:'https://hunyuan.tencent.com',icon:'🌀',primary:true}],tip:'【重要】涉及内部数据、商业策略等敏感信息时，必须使用混元等司内模型。',scores:{content:4,analysis:4,automation:2,collab:3},hot:65},
+  {id:'manus',cat:'c1b',tags:['hot'],icon:'🤖',name:'Manus',scene:'自主Agent、复杂多步任务',desc:'全球首款真正 AI Agent，自主完成复杂多步任务，从调研到执行全程无需干预。',fullDesc:'Manus 能像人一样操作浏览器、写代码、查资料、生成文件，把多步复杂任务从头做到尾。适合自动整理竞品数据、批量处理内容素材、生成完整调研报告。',links:[{label:'🚀 立即打开',url:'https://manus.im',icon:'🤖',primary:true}],tip:'告诉 Manus 你要做什么，它会自动搜索、筛选、整合，交付完整产出物。',scores:{content:4,analysis:4,automation:5,collab:2},hot:78},
+  {id:'perplexity',cat:'c1b',tags:[],icon:'🔭',name:'Perplexity',scene:'AI 搜索、竞品调研',desc:'AI 搜索引擎，每次回答都附带真实引用链接，竞品调研效率翻倍。',fullDesc:'Perplexity 是 AI 搜索引擎，每次回答都附带真实网页引用。非常适合做竞品信息速查、行业数据搜集、新闻事件溯源。',links:[{label:'🚀 立即打开',url:'https://www.perplexity.ai',icon:'🔭',primary:true}],tip:'设置 Focus 模式：Academic 专搜论文，Social 搜社媒讨论，YouTube 专搜视频内容。',scores:{content:3,analysis:5,automation:2,collab:2},hot:60},
+  {id:'paozi',cat:'c2',tags:['inner','hot'],icon:'🦌',name:'狍子 AI',scene:'团队知识库问答',desc:'腾讯内部 AI 知识管理，语义搜索准确，支持团队知识库挂载与 AI 问答。',fullDesc:'狍子 AI 是腾讯内部知识管理 AI 工具，主打语义化搜索和知识库问答。可以用自然语言提问，从团队沉淀的文档中精准检索答案。',links:[{label:'🚀 立即打开',url:'https://paozi.woa.com',icon:'🦌',primary:true}],tip:'把日常整理的主播档案、活动复盘、竞品分析文档喂给狍子 AI，团队成员直接问答即可找到答案。',scores:{content:2,analysis:4,automation:3,collab:5},hot:74},
+  {id:'lexiang',cat:'c2',tags:['inner','hot'],icon:'📗',name:'乐享知识库',scene:'企业知识沉淀',desc:'腾讯内部企业知识库，AI 语义检索、挂载 Agent 问答，团队第二大脑首选。',fullDesc:'腾讯乐享是司内企业知识管理平台，AI 化后支持自然语言问答。可上传 PDF、Word、Excel 等多种格式文档，配合 Knot Agent 使用效果最佳。',links:[{label:'🚀 立即打开',url:'https://lexiang.woa.com',icon:'📗',primary:true}],tip:'定期把主播档案、活动复盘、竞品分析文档沉淀进乐享，让团队 AI 问答更精准。',scores:{content:2,analysis:3,automation:3,collab:5},hot:68},
+  {id:'ima',cat:'c2',tags:['inner'],icon:'🧠',name:'IMA',scene:'个人知识积累',desc:'腾讯个人 AI 知识库，上传文件、网页、笔记，打造专属第二大脑。',fullDesc:'IMA 是腾讯出品的个人知识管理工具，支持上传各类文档和网页收藏，AI 建立知识索引，随时通过自然语言检索。',links:[{label:'🚀 立即打开',url:'https://ima.woa.com',icon:'🧠',primary:true}],tip:'搭配浏览器插件使用，遇到好文章一键收藏到 IMA，自动 AI 摘要，积少成多成为强大知识库。',scores:{content:2,analysis:3,automation:2,collab:3},hot:55},
+  {id:'iwiki',cat:'c2',tags:['inner'],icon:'📋',name:'iWiki',scene:'团队文档协作',desc:'腾讯内部 Wiki 平台，文档管理标准工具，已集成 AI 辅助写作。',fullDesc:'iWiki 是腾讯内部 Wiki，团队知识沉淀的官方平台。支持树状文档结构、多人协作编辑，AI 辅助写作已内置。接入了 MCP 协议，可以让 AI 直接读写文档。',links:[{label:'🚀 立即打开',url:'https://iwiki.woa.com',icon:'📋',primary:true}],tip:'iWiki 接入 MCP 后，在 CodeBuddy 里就可以直接操作 iWiki 文档，无需手动打开页面复制粘贴。',scores:{content:3,analysis:2,automation:2,collab:5},hot:58},
+  {id:'gamma',cat:'c3',tags:['hot'],icon:'✨',name:'Gamma',scene:'对外 Pitch、高颜值 PPT',desc:'国际热门 AI 演示工具，设计感极强，输入文字自动生成美观 PPT/网页。',fullDesc:'Gamma 是设计感最强的 AI 演示工具，生成的 PPT 视觉效果远超其他工具。支持直接发布为网页，非常适合做 Pitch Deck。',links:[{label:'🚀 立即打开',url:'https://gamma.app',icon:'✨',primary:true}],tip:'Gamma 支持"从大纲生成"，建议先写好结构再导入，生成后导出 PPT 文件在本地精修。',scores:{content:5,analysis:2,automation:3,collab:3},hot:76},
+  {id:'txdocs',cat:'c3',tags:['inner'],icon:'📑',name:'腾讯文档',scene:'协作文档、PPT、表格',desc:'AI 写作助手 + PPT 生成 + 表格分析，与企微深度集成，多人协作无缝衔接。',fullDesc:'腾讯文档已内置 AI 能力：AI 写作助手、AI PPT 生成、AI 表格分析。与企微、TAPD 深度集成，多人实时协作无缝衔接。',links:[{label:'🚀 立即打开',url:'https://docs.qq.com',icon:'📑',primary:true}],tip:'在腾讯文档里直接 @ AI 助手，可以做"帮我把这段话改成更正式的公告语气"等实时润色操作。',scores:{content:5,analysis:3,automation:3,collab:5},hot:82},
+  {id:'seedance',cat:'c3',tags:['hot'],icon:'🎬',name:'即梦视频',scene:'游戏宣传片、创意视频',desc:'字节旗下顶级 AI 视频生成，文/图生视频业界领先，宣传素材制作首选。',fullDesc:'即梦（Seedance 引擎）支持文生视频（最长 10 秒）、图生视频、运镜控制。物理效果真实，镜头语言丰富。适合制作游戏预告片、活动宣传视频。',links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🎬',primary:true}],tip:'先用 Midjourney 生成高质量参考图，再导入即梦做图生视频，效果更可控精准。',scores:{content:5,analysis:1,automation:2,collab:2},hot:80},
+  {id:'kling',cat:'c3',tags:['hot'],icon:'🎥',name:'可灵 AI',scene:'游戏素材、循环动画',desc:'快手出品，物理效果真实，首尾帧控制是独家亮点，循环素材制作专业级。',fullDesc:'可灵 AI 与即梦并列国内最强 AI 视频生成平台。"首尾帧控制"功能精确控制视频开始和结束画面，适合做循环视频素材。',links:[{label:'🚀 立即打开',url:'https://klingai.com',icon:'🎥',primary:true}],tip:'可灵"首尾帧控制"非常强大，适合制作开屏动画、循环素材。',scores:{content:5,analysis:1,automation:2,collab:2},hot:75},
+  {id:'midjourney',cat:'c3',tags:['hot'],icon:'🖼️',name:'Midjourney',scene:'游戏概念图、封面海报',desc:'全球最强 AI 图像生成，艺术风格多样，游戏概念图制作的行业标准工具。',fullDesc:'Midjourney V6 目前仍是 AI 图像质量天花板，尤其是艺术风格、游戏概念图、人物写真。操作在 Discord 内进行，支持中文 Prompt。',links:[{label:'🚀 立即打开',url:'https://www.midjourney.com',icon:'🖼️',primary:true}],tip:'Prompt 公式：[主体] + [风格] + [光影] + [构图] + --ar 16:9 --v 6 --q 2。',scores:{content:5,analysis:1,automation:2,collab:2},hot:83},
+  {id:'jimeng',cat:'c3',tags:['free'],icon:'🌅',name:'即梦作图',scene:'国风插画、系列配图',desc:'字节旗下 AI 图片生成，中文 Prompt 友好，游戏风/国风效果出色，免费可用。',fullDesc:'即梦 AI 图片生成工具，中文 Prompt 理解能力强、国内访问稳定快速、免费额度充足。对游戏风格、国风插画、二次元内容有独特优势。',links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🌅',primary:true}],tip:'即梦"参考图风格"功能：上传一张风格参考图，后续生成都保持类似风格，适合制作系列配图素材。',scores:{content:5,analysis:1,automation:2,collab:2},hot:70},
+  {id:'napkin',cat:'c3',tags:['new'],icon:'🗒️',name:'Napkin',scene:'信息图、流程可视化',desc:'文字转信息图神器，粘贴文字自动生成精美图表/流程图，5 秒出图。',fullDesc:'Napkin AI：粘贴任意文字，AI 自动识别逻辑关系并生成信息图、流程图、对比图等。无需设计技能，5 秒出图。',links:[{label:'🚀 立即打开',url:'https://www.napkin.ai',icon:'🗒️',primary:true}],tip:'把 OKR 或项目复盘文字丢给 Napkin，直接生成可嵌入 PPT 的信息图，省去设计排版时间。',scores:{content:5,analysis:2,automation:3,collab:2},hot:64},
+  {id:'with',cat:'c3',tags:['inner','new'],icon:'🌐',name:'With (腾讯)',scene:'活动页、数据看板原型',desc:'腾讯 AI 网页创造工具，输入需求直接生成可交互网页，无需代码。',fullDesc:'With（with.woa.com）输入描述即可生成可交互的 HTML 网页。不需要任何编程基础，适合运营同学快速制作活动落地页原型、数据可视化看板。',links:[{label:'🚀 立即打开 With',url:'https://with.woa.com',icon:'🌐',primary:true}],tip:'With 最适合"我需要一个简单的活动报名页 / 数据展示页"这类需求，30 秒出可交互原型。',scores:{content:4,analysis:2,automation:3,collab:3},hot:62},
+  {id:'txmeeting',cat:'c4',tags:['inner','hot'],icon:'📹',name:'腾讯会议 AI',scene:'会议转写、自动纪要',desc:'内置 AI 小助手，全程实时转写纪要，自动提取待办和关键决策。',fullDesc:'腾讯会议 AI 小助手：实时语音转文字、自动生成会议摘要和待办事项、识别发言人。',links:[{label:'🚀 立即打开',url:'https://meeting.tencent.com',icon:'📹',primary:true}],tip:'会议结束后，在"AI 纪要"点"精炼摘要"，一键复制到腾讯文档发全体，全流程 2 分钟搞定。',scores:{content:4,analysis:3,automation:4,collab:5},hot:88},
+  {id:'tingwu',cat:'c4',tags:['free'],icon:'👂',name:'通义听悟',scene:'音视频转文字、访谈整理',desc:'阿里出品的音视频转文字工具，说话人识别精准，免费月额 10 小时。',fullDesc:'通义听悟特点：说话人识别准确（可区分多人）、支持各类音视频格式、免费每月 10 小时额度。适合整理访谈录音、竞品发布会视频。',links:[{label:'🚀 立即打开',url:'https://tingwu.aliyun.com',icon:'👂',primary:true}],tip:'上传竞品发布会完整视频，转写后再问 AI "提炼核心功能更新和运营重点"，效率极高。',scores:{content:3,analysis:4,automation:3,collab:3},hot:66},
+  {id:'fengxun',cat:'c4',tags:['inner'],icon:'📡',name:'风讯 Claw',scene:'游戏舆情监控、竞品热度',desc:'游戏舆情监控专用工具，实时追踪各平台热点，AI 生成竞品分析报告。',fullDesc:'风讯 Claw 是腾讯内部游戏舆情监控平台，可追踪微博、抖音、B 站、贴吧等各平台游戏相关讨论。支持 AI 生成竞品分析报告，关键词订阅后热度异常自动推送预警。',links:[{label:'📩 申请开通',url:'https://km.woa.com/articles/show/655517',icon:'📡',primary:true}],tip:'设置关键词订阅后，风讯在热度异常时自动推送预警，不需要每天手动查看。',scores:{content:2,analysis:5,automation:4,collab:3},hot:69},
+  {id:'tapd',cat:'c4',tags:['inner'],icon:'📌',name:'TAPD',scene:'项目管理、OKR 看板',desc:'腾讯内部项目管理标准工具，需求/迭代/OKR 看板，AI 能力持续增强。',fullDesc:'TAPD（腾讯敏捷产品开发平台）支持需求管理、Sprint 迭代、Bug 追踪、OKR 看板、甘特图。支持自动化规则减少手动同步。',links:[{label:'🚀 立即打开',url:'https://tapd.woa.com',icon:'📌',primary:true}],tip:'TAPD 支持自动化规则（任务状态变更自动发企微通知），减少手动同步信息的成本。',scores:{content:2,analysis:3,automation:4,collab:5},hot:55},
+  {id:'isearch',cat:'c4',tags:['inner'],icon:'🔎',name:'iSearch',scene:'内部文档检索、KM 搜索',desc:'腾讯内网智能搜索，整合 KM、iWiki 等内部资源，AI 语义搜索，找内部资料必用。',fullDesc:'iSearch 是腾讯内部统一搜索平台，整合 KM 文章、iWiki 文档、代码仓库等。支持 AI 语义搜索。',links:[{label:'🚀 立即打开',url:'https://isearch.woa.com',icon:'🔎',primary:true}],tip:'iSearch 支持在搜索结果中直接问 AI 总结，一步到位获得关于某个主题的内部最佳实践。',scores:{content:2,analysis:4,automation:2,collab:3},hot:52},
+  {id:'txzh',cat:'c4',tags:['inner'],icon:'👤',name:'腾讯智影',scene:'数字人播报、批量视频',desc:'数字人播报、AI 配音、文字转视频，批量生产标准化视频内容的专属工具。',fullDesc:'腾讯智影专注 AI 视频创作：数字人（可定制形象克隆）、AI 配音（多音色和方言）、文字转视频。适合批量生产标准化介绍视频。',links:[{label:'🚀 立即打开',url:'https://zenvideo.qq.com',icon:'👤',primary:true}],tip:'智影数字人可以克隆真实人像，适合制作需要"真人出镜"的游戏发布公告视频。',scores:{content:5,analysis:1,automation:3,collab:3},hot:61}
+];
+
+const CAT_INFO = {
+  c1a:{label:'龙虾家族',color:'rgba(248,81,73,.6)',bg:'rgba(248,81,73,.12)',icon:'🦞'},
+  c1b:{label:'对话助手',color:'rgba(88,166,255,.6)',bg:'rgba(88,166,255,.12)',icon:'💬'},
+  c2:{label:'知识库',color:'rgba(188,140,255,.6)',bg:'rgba(188,140,255,.12)',icon:'📚'},
+  c3:{label:'AI 创造',color:'rgba(210,153,34,.6)',bg:'rgba(210,153,34,.12)',icon:'🎨'},
+  c4:{label:'效率提升',color:'rgba(63,185,80,.6)',bg:'rgba(63,185,80,.12)',icon:'⚡'}
+};
+
+let currentCat = 'all', currentTag = null, searchQuery = '';
+
+function getFiltered() {
+  const q = searchQuery.toLowerCase().trim();
+  return TOOLS.filter(t => {
+    if (currentCat !== 'all' && t.cat !== currentCat) return false;
+    if (currentTag && !t.tags.includes(currentTag)) return false;
+    if (!q) return true;
+    return [t.name, t.desc, t.scene].some(s => s.toLowerCase().includes(q));
+  });
+}
+
+function hl(text, q) {
+  if (!q) return text;
+  return text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');
+}
+
+function renderSidebarCounts() {
+  const cats = ['c1a','c1b','c2','c3','c4'];
+  document.getElementById('cnt-all').textContent = TOOLS.length;
+  cats.forEach(c => { document.getElementById('cnt-'+c).textContent = TOOLS.filter(t=>t.cat===c).length; });
+  ['inner','free','hot','new'].forEach(tag => {
+    document.getElementById('cnt-'+tag).textContent = TOOLS.filter(t=>t.tags.includes(tag)).length;
+  });
+  document.getElementById('statInner').textContent = TOOLS.filter(t=>t.tags.includes('inner')).length;
+  document.getElementById('statClaw').textContent = TOOLS.filter(t=>t.tags.includes('claw')).length;
+  document.getElementById('statHot').textContent = TOOLS.filter(t=>t.tags.includes('hot')).length;
+}
+
+function renderDashboard() {
+  const filtered = getFiltered();
+  const q = searchQuery.toLowerCase().trim();
+
+  // 热度排行
+  const sorted = [...filtered].sort((a,b) => b.hot - a.hot).slice(0,8);
+  const maxHot = sorted[0]?.hot || 100;
+  document.getElementById('hotBarList').innerHTML = sorted.map((t,i) => {
+    const pct = Math.round(t.hot / maxHot * 100);
+    const color = t.tags.includes('claw') ? '#f85149' : t.cat==='c3' ? '#d29922' : t.cat==='c2' ? '#bc8cff' : t.cat==='c4' ? '#3fb950' : '#58a6ff';
+    return `<div class="bar-item">
+      <span class="bar-rank">${i+1}</span>
+      <span class="bar-label">${t.icon} ${t.name}</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${color};"><span class="bar-val">${t.hot}</span></div></div>
+    </div>`;
+  }).join('');
+
+  // 分类热力图
+  const catCounts = {};
+  filtered.forEach(t => { catCounts[t.cat] = (catCounts[t.cat]||0)+1; });
+  const cats = ['c1a','c1b','c2','c3','c4'];
+  document.getElementById('catHeatmap').innerHTML = cats.map(c => {
+    const info = CAT_INFO[c];
+    const cnt = catCounts[c] || 0;
+    const intensity = Math.min(cnt / TOOLS.filter(t=>t.cat===c).length, 1);
+    return `<div class="heat-cell" style="background:${info.color.replace('.6','.'+(0.08+intensity*0.3).toFixed(2))};border-color:${info.color};" onclick="filterCat('${c}')">
+      <span class="heat-cnt" style="color:${info.color.replace('.6)',')')};">${cnt}</span>
+      <span>${info.icon}</span>
+      <span class="heat-name">${info.label}</span>
+    </div>`;
+  }).join('');
+
+  // 矩阵评分表
+  const topTools = filtered.sort((a,b)=>b.hot-a.hot).slice(0,12);
+  function scoreDots(val) {
+    return [...Array(5)].map((_,i) => `<div class="${i<val?'dot-filled':'dot-empty'}"></div>`).join('');
+  }
+  document.getElementById('matrixBody').innerHTML = topTools.map(t => {
+    const info = CAT_INFO[t.cat];
+    const tagHtml = t.tags.map(tg => `<span class="tt tt-${tg}">${{claw:'🦞',inner:'司内',free:'免费',hot:'🔥',new:'✨'}[tg]||tg}</span>`).join('');
+    return `<tr onclick="showModal('${t.id}')" style="cursor:pointer;">
+      <td><div class="tool-name-cell"><span class="tool-emoji">${t.icon}</span><span class="tool-name-text">${hl(t.name,q)}</span></div></td>
+      <td><div class="score-dot">${scoreDots(t.scores.content)}</div></td>
+      <td><div class="score-dot">${scoreDots(t.scores.analysis)}</div></td>
+      <td><div class="score-dot">${scoreDots(t.scores.automation)}</div></td>
+      <td><div class="score-dot">${scoreDots(t.scores.collab)}</div></td>
+      <td style="font-size:11px;color:var(--text-sub);">${['★★★★★','★★★★☆','★★★☆☆','★★☆☆☆','★☆☆☆☆'][5-Math.max(...Object.values(t.scores))]}</td>
+      <td><a class="action-btn primary" href="${t.links[0].url}" target="_blank" onclick="event.stopPropagation()">打开 ↗</a></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  const q = searchQuery.toLowerCase().trim();
+  document.getElementById('tableBody').innerHTML = filtered.map((t,i) => {
+    const info = CAT_INFO[t.cat];
+    const tagHtml = t.tags.map(tg=>`<span class="tt tt-${tg}">${{claw:'🦞龙虾',inner:'司内',free:'🆓免费',hot:'🔥热门',new:'✨新'}[tg]||tg}</span>`).join('');
+    return `<tr onclick="showModal('${t.id}')" style="cursor:pointer;">
+      <td style="color:var(--text-dim);font-size:11px;">${String(i+1).padStart(2,'0')}</td>
+      <td><div class="tool-name-cell"><span class="tool-emoji">${t.icon}</span><span class="tool-name-text">${hl(t.name,q)}</span></div></td>
+      <td><span style="font-size:11px;color:${info.color.replace('.6',')')};">${info.icon} ${info.label}</span></td>
+      <td><div class="tool-tag-cell">${tagHtml}</div></td>
+      <td style="font-size:12px;color:var(--text-sub);">${hl(t.scene,q)}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <a class="action-btn primary" href="${t.links[0].url}" target="_blank" onclick="event.stopPropagation()">打开</a>
+          <button class="action-btn" onclick="event.stopPropagation();showModal('${t.id}')">详情</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderMatrixCards() {
+  const filtered = getFiltered();
+  const q = searchQuery.toLowerCase().trim();
+  document.getElementById('matrixCards').innerHTML = filtered.map(t => {
+    const info = CAT_INFO[t.cat];
+    const scoreItems = [
+      {label:'创作', val:t.scores.content},
+      {label:'分析', val:t.scores.analysis},
+      {label:'自动化', val:t.scores.automation},
+      {label:'协作', val:t.scores.collab}
+    ];
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'" onclick="showModal('${t.id}')">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;border-radius:9px;background:${info.bg};display:flex;align-items:center;justify-content:center;font-size:20px;">${t.icon}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;">${hl(t.name,q)}</div>
+          <div style="font-size:10.5px;color:${info.color.replace('.6',')')};">${info.icon} ${info.label}</div>
+        </div>
+        <div style="margin-left:auto;font-size:11px;color:var(--text-dim);background:var(--bg3);padding:2px 8px;border-radius:10px;">热度 ${t.hot}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        ${scoreItems.map(s=>`<div style="background:var(--bg3);border-radius:6px;padding:7px 10px;">
+          <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">${s.label}</div>
+          <div style="display:flex;gap:2px;">${[...Array(5)].map((_,i)=>`<div style="width:9px;height:9px;border-radius:2px;background:${i<s.val?'var(--primary)':'var(--bg4)'};border:${i>=s.val?'1px solid var(--border)':'none'};"></div>`).join('')}</div>
+        </div>`).join('')}
+      </div>
+      <a style="display:block;text-align:center;padding:7px;background:var(--primary-dark);color:#fff;border-radius:6px;font-size:12px;font-weight:600;transition:background .15s;" href="${t.links[0].url}" target="_blank" onclick="event.stopPropagation()" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='var(--primary-dark)'">🚀 立即打开</a>
+    </div>`;
+  }).join('');
+}
+
+let currentView = 'dashboard';
+function switchView(view) {
+  currentView = view;
+  ['dashboard','table','matrix'].forEach(v => {
+    document.getElementById('view-'+v).style.display = v===view ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-tab').forEach((tab,i)=>{
+    tab.classList.toggle('active',['dashboard','table','matrix'][i]===view);
+  });
+  renderCurrentView();
+}
+
+function renderCurrentView() {
+  if (currentView==='dashboard') renderDashboard();
+  else if (currentView==='table') renderTable();
+  else renderMatrixCards();
+}
+
+function filterCat(cat) {
+  currentCat = cat; currentTag = null;
+  document.querySelectorAll('.sidebar-item[data-cat]').forEach(el => el.classList.toggle('active', el.dataset.cat===cat));
+  document.querySelectorAll('.sidebar-item[data-tag]').forEach(el => el.classList.remove('active'));
+  renderCurrentView();
+}
+window.filterCat = filterCat;
+
+function filterTag(tag) {
+  currentTag = currentTag===tag ? null : tag;
+  currentCat = 'all';
+  document.querySelectorAll('.sidebar-item[data-cat]').forEach(el=>el.classList.toggle('active',el.dataset.cat==='all'));
+  document.querySelectorAll('.sidebar-item[data-tag]').forEach(el=>el.classList.toggle('active',el.dataset.tag===tag&&currentTag!==null));
+  renderCurrentView();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value;
+  renderCurrentView();
+});
+
+const overlay = document.getElementById('modalOverlay');
+window.showModal = function(id) {
+  const tool = TOOLS.find(t=>t.id===id);
+  if (!tool) return;
+  const info = CAT_INFO[tool.cat];
+  const iconEl = document.getElementById('modalIcon');
+  iconEl.textContent = tool.icon;
+  iconEl.style.background = info.bg;
+  document.getElementById('modalName').textContent = tool.name;
+  document.getElementById('modalTags').innerHTML = tool.tags.map(tg=>`<span class="tt tt-${tg}" style="font-size:11px;">${{claw:'🦞 龙虾',inner:'司内',free:'🆓 免费',hot:'🔥 热门',new:'✨ 新'}[tg]||tg}</span>`).join('');
+  document.getElementById('modalDesc').textContent = tool.fullDesc;
+  document.getElementById('modalTips').textContent = tool.tip;
+  document.getElementById('modalLinks').innerHTML = tool.links.map((l,i)=>`
+    <a class="modal-link ${i===0?'primary':''}" href="${l.url}" target="_blank" rel="noopener">
+      <div class="modal-link-icon">${l.icon}</div>
+      <div class="modal-link-text"><div class="modal-link-label">${l.label}</div><div class="modal-link-url">${l.url}</div></div>
+      <div class="modal-link-arrow">↗</div>
+    </a>`).join('');
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+};
+function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('modalClose').addEventListener('click',closeModal);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+renderSidebarCounts();
+renderCurrentView();
+</script>
+</body>
+</html>

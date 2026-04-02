@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI 图鉴 Vol.1 · 深海玻璃版</title>
+<style>
+:root {
+  --bg-start: #050c1f;
+  --bg-mid: #0a1628;
+  --bg-end: #0d1f3c;
+  --glass: rgba(255,255,255,.06);
+  --glass-border: rgba(255,255,255,.12);
+  --glass-hover: rgba(255,255,255,.10);
+  --text: #e8f0fe;
+  --text-2: #a8bbd4;
+  --text-3: #6b8aaa;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --cyan-400: #22d3ee;
+  --teal-400: #2dd4bf;
+  --purple-400: #c084fc;
+  --rose-400: #fb7185;
+  --amber-400: #fbbf24;
+  --emerald-400: #34d399;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:linear-gradient(135deg,var(--bg-start) 0%,var(--bg-mid) 50%,var(--bg-end) 100%);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 60% 40% at 20% 20%,rgba(59,130,246,.12) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 35% at 80% 70%,rgba(139,92,246,.10) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 30% at 50% 50%,rgba(34,211,238,.06) 0%,transparent 60%);
+pointer-events:none;z-index:0;}
+/* 浮动粒子 */
+body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle 1px at 10% 20%,rgba(255,255,255,.15) 0%,transparent 100%),radial-gradient(circle 1px at 30% 60%,rgba(255,255,255,.1) 0%,transparent 100%),radial-gradient(circle 1px at 70% 30%,rgba(255,255,255,.12) 0%,transparent 100%),radial-gradient(circle 1px at 85% 75%,rgba(255,255,255,.08) 0%,transparent 100%),radial-gradient(circle 1.5px at 50% 85%,rgba(255,255,255,.1) 0%,transparent 100%);pointer-events:none;z-index:0;}
+a{text-decoration:none;color:inherit;}
+button{font-family:var(--font);border:none;cursor:pointer;background:none;}
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px;}
+
+.glass{background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--glass-border);}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:300;height:60px;background:rgba(5,12,31,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--glass-border);display:flex;align-items:center;padding:0 28px;gap:14px;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;color:var(--text);flex-shrink:0;}
+.nav-logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue-500),var(--cyan-400));display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(59,130,246,.4);}
+.nav-divider{width:1px;height:20px;background:var(--glass-border);}
+.nav-search{flex:1;max-width:380px;position:relative;}
+.nav-search input{width:100%;height:38px;border:1px solid var(--glass-border);border-radius:10px;background:var(--glass);backdrop-filter:blur(12px);padding:0 32px 0 36px;font-size:13.5px;color:var(--text);outline:none;transition:all .25s;}
+.nav-search input:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(59,130,246,.15),0 0 20px rgba(59,130,246,.1);}
+.nav-search input::placeholder{color:var(--text-3);}
+.nav-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3);}
+.nav-search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:18px;height:18px;border-radius:50%;background:var(--text-3);color:#fff;display:none;align-items:center;justify-content:center;font-size:10px;cursor:pointer;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-token-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:7px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(59,130,246,.25),rgba(34,211,238,.25));border:1px solid rgba(59,130,246,.4);color:var(--blue-400);cursor:pointer;transition:all .25s;white-space:nowrap;}
+.nav-token-btn:hover{background:linear-gradient(135deg,rgba(59,130,246,.4),rgba(34,211,238,.35));box-shadow:0 0 20px rgba(59,130,246,.3);}
+.nav-stat{font-size:12px;color:var(--text-3);background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:3px 10px;}
+
+/* HERO */
+.hero{padding:70px 24px 52px;text-align:center;max-width:680px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan-400);background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:5px 16px;margin-bottom:24px;}
+.hero h1{font-size:clamp(30px,5.5vw,50px);font-weight:900;letter-spacing:-.02em;line-height:1.15;color:var(--text);margin-bottom:16px;}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue-400),var(--cyan-400));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:14.5px;color:var(--text-2);line-height:1.78;}
+/* 波浪动效 */
+.hero-wave{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:200px;height:2px;background:linear-gradient(90deg,transparent,var(--blue-400),var(--cyan-400),transparent);border-radius:1px;}
+
+/* CAT BAR */
+.cat-bar-wrap{position:sticky;top:60px;z-index:200;background:rgba(5,12,31,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);}
+.cat-bar{max-width:1200px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.cat-bar::-webkit-scrollbar{display:none;}
+.cat-btn{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--glass-border);color:var(--text-2);background:var(--glass);transition:all .25s;white-space:nowrap;cursor:pointer;backdrop-filter:blur(8px);}
+.cat-btn:hover{background:var(--glass-hover);color:var(--text);border-color:rgba(255,255,255,.2);}
+.cat-btn .cat-count{font-size:11px;border-radius:8px;padding:1px 6px;background:rgba(255,255,255,.08);color:inherit;}
+.cat-btn[data-cat="all"].active{background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(34,211,238,.25));border-color:var(--blue-400);color:var(--blue-400);box-shadow:0 0 20px rgba(59,130,246,.2);}
+.cat-btn[data-cat="c1a"].active{background:linear-gradient(135deg,rgba(251,113,133,.25),rgba(251,113,133,.15));border-color:var(--rose-400);color:var(--rose-400);box-shadow:0 0 20px rgba(251,113,133,.2);}
+.cat-btn[data-cat="c1b"].active{background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(96,165,250,.15));border-color:var(--blue-400);color:var(--blue-400);box-shadow:0 0 20px rgba(96,165,250,.2);}
+.cat-btn[data-cat="c2"].active{background:linear-gradient(135deg,rgba(192,132,252,.25),rgba(192,132,252,.15));border-color:var(--purple-400);color:var(--purple-400);box-shadow:0 0 20px rgba(192,132,252,.2);}
+.cat-btn[data-cat="c3"].active{background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(251,191,36,.15));border-color:var(--amber-400);color:var(--amber-400);box-shadow:0 0 20px rgba(251,191,36,.2);}
+.cat-btn[data-cat="c4"].active{background:linear-gradient(135deg,rgba(52,211,153,.25),rgba(52,211,153,.15));border-color:var(--emerald-400);color:var(--emerald-400);box-shadow:0 0 20px rgba(52,211,153,.2);}
+
+/* CONTENT */
+.content{max-width:1200px;margin:0 auto;padding:36px 28px 80px;position:relative;z-index:1;}
+
+/* SECTION */
+.section{margin-bottom:52px;}
+.section-header{margin-bottom:20px;}
+.section-title-block{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--glass-border);}
+.section-badge{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;padding:6px 16px;border-radius:10px;border:1px solid;backdrop-filter:blur(8px);}
+.c1a .section-badge{color:var(--rose-400);border-color:rgba(251,113,133,.25);background:rgba(251,113,133,.08);}
+.c1b .section-badge{color:var(--blue-400);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.08);}
+.c2  .section-badge{color:var(--purple-400);border-color:rgba(192,132,252,.25);background:rgba(192,132,252,.08);}
+.c3  .section-badge{color:var(--amber-400);border-color:rgba(251,191,36,.25);background:rgba(251,191,36,.08);}
+.c4  .section-badge{color:var(--emerald-400);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08);}
+.section-sub{font-size:12.5px;color:var(--text-3);}
+.section-count{margin-left:auto;font-size:12px;color:var(--text-3);background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:2px 10px;}
+
+/* Token Banner */
+.token-banner{background:linear-gradient(135deg,rgba(192,132,252,.08),rgba(59,130,246,.08));border:1px solid rgba(192,132,252,.2);border-radius:14px;backdrop-filter:blur(12px);padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.token-banner-icon{font-size:22px;flex-shrink:0;}
+.token-banner-text{flex:1;}
+.token-banner-title{font-size:13px;font-weight:700;color:var(--purple-400);}
+.token-banner-desc{font-size:11.5px;color:var(--text-3);margin-top:3px;}
+.token-banner-links{display:flex;gap:8px;flex-shrink:0;}
+.token-link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;border:1px solid rgba(192,132,252,.3);color:var(--purple-400);background:rgba(192,132,252,.08);cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none;}
+.token-link-btn:hover{background:rgba(192,132,252,.18);border-color:var(--purple-400);}
+.token-link-btn.primary{background:rgba(192,132,252,.18);}
+
+/* GRID */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+
+/* CARD — 玻璃拟态核心 */
+.tool-card{background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:12px;transition:all .3s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;overflow:hidden;}
+.tool-card::before{content:'';position:absolute;inset:0;border-radius:var(--radius);background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 60%);pointer-events:none;}
+.tool-card:hover{background:var(--glass-hover);border-color:rgba(255,255,255,.2);transform:translateY(-4px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 40px rgba(59,130,246,.1);}
+.c1a .tool-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px rgba(251,113,133,.12);}
+.c2  .tool-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px rgba(192,132,252,.12);}
+.c3  .tool-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px rgba(251,191,36,.08);}
+.c4  .tool-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px rgba(52,211,153,.10);}
+.card-glow{position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.15;pointer-events:none;}
+.c1a .card-glow{background:var(--rose-400);}
+.c1b .card-glow{background:var(--blue-400);}
+.c2  .card-glow{background:var(--purple-400);}
+.c3  .card-glow{background:var(--amber-400);}
+.c4  .card-glow{background:var(--emerald-400);}
+.card-top{display:flex;align-items:flex-start;gap:12px;position:relative;z-index:1;}
+.card-icon-wrap{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--glass-border);background:rgba(255,255,255,.06);backdrop-filter:blur(8px);}
+.card-head{flex:1;min-width:0;}
+.card-name{font-size:14.5px;font-weight:700;color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.tag{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:600;border-radius:6px;padding:2px 6px;border:1px solid transparent;white-space:nowrap;}
+.tag-inner{background:rgba(96,165,250,.12);color:var(--blue-400);border-color:rgba(96,165,250,.2);}
+.tag-hot{background:rgba(251,113,133,.12);color:var(--rose-400);border-color:rgba(251,113,133,.2);}
+.tag-new{background:rgba(52,211,153,.12);color:var(--emerald-400);border-color:rgba(52,211,153,.2);}
+.tag-free{background:rgba(251,191,36,.12);color:var(--amber-400);border-color:rgba(251,191,36,.2);}
+.tag-claw{background:rgba(251,113,133,.15);color:var(--rose-400);border-color:rgba(251,113,133,.25);font-weight:700;}
+.card-desc{font-size:12.5px;color:var(--text-2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;position:relative;z-index:1;}
+.card-actions{display:flex;gap:7px;margin-top:2px;position:relative;z-index:1;}
+.card-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:7px 13px;border-radius:9px;border:1px solid var(--glass-border);color:var(--text-2);background:rgba(255,255,255,.04);transition:all .2s;white-space:nowrap;cursor:pointer;backdrop-filter:blur(4px);}
+.card-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--text);}
+.c1a .card-btn.btn-primary{background:rgba(251,113,133,.15);border-color:rgba(251,113,133,.3);color:var(--rose-400);}
+.c1b .card-btn.btn-primary{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.3);color:var(--blue-400);}
+.c2  .card-btn.btn-primary{background:rgba(192,132,252,.15);border-color:rgba(192,132,252,.3);color:var(--purple-400);}
+.c3  .card-btn.btn-primary{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.25);color:var(--amber-400);}
+.c4  .card-btn.btn-primary{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.25);color:var(--emerald-400);}
+
+/* C3 */
+.c3-columns{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start;}
+.c3-col{background:rgba(251,191,36,.04);backdrop-filter:blur(16px);border:1px solid rgba(251,191,36,.15);border-radius:var(--radius);padding:14px 12px 16px;display:flex;flex-direction:column;gap:0;}
+.c3-col-header{font-size:11px;font-weight:700;color:var(--amber-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(251,191,36,.12);}
+.c3-col .tool-grid,.c3-col-grid{display:flex!important;flex-direction:column!important;gap:8px!important;}
+.c3-col-grid .tool-card{padding:12px 12px 10px!important;gap:9px!important;border-radius:12px!important;}
+.c3-col-grid .card-icon-wrap{width:36px!important;height:36px!important;font-size:18px!important;border-radius:9px!important;}
+.c3-col-grid .card-name{font-size:13px!important;}
+.c3-col-grid .card-desc{font-size:11.5px!important;-webkit-line-clamp:3!important;}
+.c3-col-grid .card-btn{font-size:11px!important;padding:5px 9px!important;}
+@media(max-width:960px){.c3-columns{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.c3-columns{grid-template-columns:1fr;}}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:rgba(10,22,40,.85);backdrop-filter:blur(30px) saturate(200%);-webkit-backdrop-filter:blur(30px) saturate(200%);border:1px solid var(--glass-border);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 60px rgba(59,130,246,.08);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;transform:scale(.96) translateY(12px);transition:transform .3s;}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-header{padding:24px 24px 16px;border-bottom:1px solid var(--glass-border);display:flex;align-items:flex-start;gap:14px;position:sticky;top:0;background:rgba(10,22,40,.9);backdrop-filter:blur(20px);z-index:1;border-radius:20px 20px 0 0;}
+.modal-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1px solid var(--glass-border);background:var(--glass);}
+.modal-meta{flex:1;min-width:0;}
+.modal-name{font-size:18px;font-weight:800;color:var(--text);}
+.modal-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+.modal-close{width:30px;height:30px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);color:var(--text-3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;cursor:pointer;}
+.modal-close:hover{border-color:var(--rose-400);color:var(--rose-400);}
+.modal-body{padding:20px 24px 24px;}
+.modal-desc{font-size:14px;color:var(--text-2);line-height:1.78;margin-bottom:20px;}
+.modal-section-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;}
+.modal-links{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.modal-link-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);transition:all .2s;text-decoration:none;backdrop-filter:blur(8px);}
+.modal-link-item:hover{border-color:rgba(255,255,255,.2);background:var(--glass-hover);}
+.modal-link-item.primary{border-color:var(--blue-400);}
+.modal-link-icon{width:32px;height:32px;border-radius:9px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.modal-link-text{flex:1;}
+.modal-link-label{font-size:13.5px;font-weight:600;color:var(--text);}
+.modal-link-url{font-size:11px;color:var(--text-3);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px;}
+.modal-link-arrow{font-size:14px;color:var(--text-3);}
+.modal-tips{background:rgba(255,255,255,.03);border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--text-3);line-height:1.65;border:1px solid var(--glass-border);}
+
+mark{background:rgba(251,191,36,.2);color:var(--amber-400);border-radius:3px;padding:0 2px;}
+.empty{text-align:center;padding:80px 20px;display:none;}
+.empty-emoji{font-size:44px;margin-bottom:14px;}
+.empty-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.empty-sub{font-size:14px;color:var(--text-3);}
+.footer{border-top:1px solid var(--glass-border);padding:24px;text-align:center;font-size:12.5px;color:var(--text-3);}
+.footer a{color:var(--blue-400);}
+@media(max-width:640px){.nav{padding:0 16px;}.content{padding:20px 16px 60px;}.cat-bar{padding:8px 16px;}.tool-grid{grid-template-columns:1fr;}.token-banner{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo"><div class="nav-logo-mark">🦞</div>AI 图鉴 Vol.1</div>
+  <div class="nav-divider"></div>
+  <div class="nav-search">
+    <div class="nav-search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+    <input id="searchInput" type="text" placeholder="搜索工具、或描述你的需求…" autocomplete="off"/>
+    <button class="nav-search-clear" id="searchClear">✕</button>
+  </div>
+  <div class="nav-right">
+    <a class="nav-token-btn" href="https://tokens.woa.com" target="_blank" rel="noopener">⚡ Token 用量</a>
+    <span class="nav-stat" id="navStat">收录 0 个工具</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">✦ 游戏内容运营专版 · 持续更新</div>
+  <h1>AI 工具精选，<em>鹅厂运营版</em></h1>
+  <p class="hero-sub">内容运营 / 游戏发行场景高频工具 | 5 大场景 · 附官网直达 + KM 实践资料</p>
+  <div class="hero-wave"></div>
+</header>
+
+<div class="cat-bar-wrap">
+  <div class="cat-bar" id="catBar">
+    <button class="cat-btn active" data-cat="all"><span>📋</span> 全部 <span class="cat-count" id="cnt-all">0</span></button>
+    <button class="cat-btn" data-cat="c1a"><span>🦞</span> 龙虾家族 <span class="cat-count" id="cnt-c1a">0</span></button>
+    <button class="cat-btn" data-cat="c1b"><span>💬</span> 对话助手 <span class="cat-count" id="cnt-c1b">0</span></button>
+    <button class="cat-btn" data-cat="c2"><span>📚</span> 知识库管理 <span class="cat-count" id="cnt-c2">0</span></button>
+    <button class="cat-btn" data-cat="c3"><span>🎨</span> AI 创造工坊 <span class="cat-count" id="cnt-c3">0</span></button>
+    <button class="cat-btn" data-cat="c4"><span>⚡</span> AI 效率提升 <span class="cat-count" id="cnt-c4">0</span></button>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="section c1a" id="sec-c1a">
+    <div class="section-header"><div class="section-title-block"><span class="section-badge">🦞 龙虾家族</span><span class="section-sub">OpenClaw 系列 · Agent 编排 · 自动化执行</span><div class="section-count" id="scnt-c1a"></div></div></div>
+    <div class="token-banner" id="tokenBanner"><div class="token-banner-icon">⚡</div><div class="token-banner-text"><div class="token-banner-title">查看你的 AI Token 用量</div><div class="token-banner-desc">tokens.woa.com 可查 Knot / With / OpenClaw / CodeBuddy 内网版用量 · CodeBuddy IDE 版需到外部官网单独查看</div></div><div class="token-banner-links"><a class="token-link-btn primary" href="https://tokens.woa.com" target="_blank" rel="noopener">📊 Token 用量看板</a><a class="token-link-btn" href="https://tencent.sso.copilot.tencent.com/profile/usage" target="_blank" rel="noopener">💻 CodeBuddy IDE</a></div></div>
+    <div class="tool-grid" id="grid-c1a"></div>
+  </div>
+  <div class="section c1b" id="sec-c1b">
+    <div class="section-header"><div class="section-title-block"><span class="section-badge">💬 对话助手</span><span class="section-sub">大模型对话 · 搜索增强 · 快速问答</span><div class="section-count" id="scnt-c1b"></div></div></div>
+    <div class="tool-grid" id="grid-c1b"></div>
+  </div>
+  <div class="section c2" id="sec-c2">
+    <div class="section-header"><div class="section-title-block"><span class="section-badge">📚 知识库管理</span><span class="section-sub">第二大脑 · 团队知识沉淀 · 语义检索</span><div class="section-count" id="scnt-c2"></div></div></div>
+    <div class="tool-grid" id="grid-c2"></div>
+  </div>
+  <div class="section c3" id="sec-c3">
+    <div class="section-header"><div class="section-title-block"><span class="section-badge">🎨 AI 创造工坊</span><span class="section-sub">用 AI 生成 PPT、视频、图像和网页，告别手工制作</span><div class="section-count" id="scnt-c3"></div></div></div>
+    <div class="c3-columns" id="c3-columns">
+      <div class="c3-col"><div class="c3-col-header">PPT &amp; 演示</div><div class="tool-grid c3-col-grid" id="grid-c3-ppt"></div></div>
+      <div class="c3-col"><div class="c3-col-header">视频创作</div><div class="tool-grid c3-col-grid" id="grid-c3-video"></div></div>
+      <div class="c3-col"><div class="c3-col-header">图像生成</div><div class="tool-grid c3-col-grid" id="grid-c3-image"></div></div>
+      <div class="c3-col"><div class="c3-col-header">HTML &amp; 创造</div><div class="tool-grid c3-col-grid" id="grid-c3-html"></div></div>
+    </div>
+  </div>
+  <div class="section c4" id="sec-c4">
+    <div class="section-header"><div class="section-title-block"><span class="section-badge">⚡ AI 效率提升</span><span class="section-sub">会议纪要 · 数据分析 · 流程自动化</span><div class="section-count" id="scnt-c4"></div></div></div>
+    <div class="tool-grid" id="grid-c4"></div>
+  </div>
+  <div class="empty" id="emptyState"><div class="empty-emoji">🔍</div><div class="empty-title">没有找到相关工具</div><div class="empty-sub">换个关键词试试？</div></div>
+</div>
+<footer class="footer">由游戏发行内容运营团队维护 &nbsp;·&nbsp; 如需新增工具请联系 wickyli &nbsp;·&nbsp; <a href="https://km.woa.com" target="_blank">KM 主页</a> &nbsp;·&nbsp; 更新于 2026-03-27</footer>
+<div class="modal-overlay" id="modalOverlay"><div class="modal" id="modal"><div class="modal-header"><div class="modal-icon" id="modalIcon"></div><div class="modal-meta"><div class="modal-name" id="modalName"></div><div class="modal-tags" id="modalTags"></div></div><button class="modal-close" id="modalClose">✕</button></div><div class="modal-body"><p class="modal-desc" id="modalDesc"></p><div class="modal-section-title">直达链接</div><div class="modal-links" id="modalLinks"></div><div class="modal-tips" id="modalTips"></div></div></div></div>
+
+<script>
+const TOOLS=[{id:'knot',cat:'c1a',icon:'🪢',name:'Knot (KnotClaw)',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'腾讯官方 AI 智能工作台，内置 Skill 市场 + 知识库 + Agent 编排，是最推荐的龙虾入门工具。',fullDesc:'KnotClaw 是腾讯官方维护的 OpenClaw 集成版本，无需自部署，扫码即用。已接入混元、GPT-4o 等多模型；内置 Skill 市场（PPT 生成、文档总结、图片生成等）；支持知识库挂载。是"养虾"最零门槛的入口，也是目前 KM 热文最多的龙虾平台。',links:[{label:'🚀 立即打开 Knot',url:'https://knot.woa.com',icon:'🪢',primary:true},{label:'KM 龙虾全图鉴',url:'https://km.woa.com/articles/show/655461',icon:'📖'},{label:'KM OpenClaw vs Knot 对比',url:'https://km.woa.com/articles/show/652472',icon:'📖'}],tip:'💡 你正在使用的 Knot 就是 KnotClaw，直接在对话框里 @ Skill 即可调用各种 AI 能力，无需额外设置。'},{id:'openclaw-local',cat:'c1a',icon:'🦞',name:'OpenClaw 本地版',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'开源',cls:'tag-free'}],desc:'开源 AI Agent 平台，本地或远端部署，完全可控，支持接入各类模型和工具，进阶用户首选。',fullDesc:'OpenClaw（Claude 同款理念的开源 AI Agent）是 2026 年最火的 AI 工具之一。支持本地 Mac 部署或远程服务器部署；可接入 Gemini、Claude、混元等多种模型；通过 Skills 体系扩展能力无上限。',links:[{label:'🚀 立即打开（内网）',url:'https://openclaw.woa.com',icon:'🦞',primary:true},{label:'官方文档',url:'https://openclaw.woa.com/docs',icon:'📖'},{label:'KM 使用攻略',url:'https://km.woa.com/articles/show/653709',icon:'📖'},{label:'KM 工具自由实践',url:'https://km.woa.com/articles/show/654372',icon:'📖'}],tip:'💡 进阶：用 Skills 体系把重复工作做成"一句话执行"的自动化流，比如"帮我整理今天的竞品动态并发到企微"。'},{id:'workbuddy',cat:'c1a',icon:'🤝',name:'WorkBuddy',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'企业级 AI Agent，0 代码搭建智能助手，接入知识库和工具链，一句话完成复杂任务。',fullDesc:'WorkBuddy 是腾讯企业级 AI Agent 平台，可快速搭建专属 Agent。支持知识库对话、文件处理、自动化工作流。',links:[{label:'🚀 立即打开',url:'https://workbuddy.woa.com',icon:'🤝',primary:true},{label:'KM 实战文章',url:'https://km.woa.com/articles/show/655800',icon:'📖'}],tip:'💡 WorkBuddy + FUE 平台打通后，可以自动部署验证，实现真正的 AI 全流程交付。'},{id:'zhangwo',cat:'c1a',icon:'🦀',name:'掌握 (QQBot x OpenClaw)',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'✨ 新',cls:'tag-new'}],desc:'全 GUI 可视化的 OpenClaw，司内开源，支持 Mac 本地或远端部署，已支持 Gemini 3 Pro 模型。',fullDesc:'掌握（QQBot x OpenClaw）是全 GUI 可视化的 OpenClaw 内网版本，司内开源可申请内测。适合非技术背景的运营同学，全鼠标操作。',links:[{label:'KM 龙虾图鉴（含申请方式）',url:'https://km.woa.com/articles/show/655461',icon:'📖',primary:true}],tip:'💡 掌握 是专为非技术用户设计的龙虾版本，全鼠标操作，是从 Knot 升级到"自己部署龙虾"的最佳跳板。'},{id:'qclaw',cat:'c1a',icon:'🔧',name:'QClaw',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'}],desc:'QQ 管家团队出品的 AI 助手，龙虾底座，已全量开放，轻量易用，适合快速上手 Agent 使用。',fullDesc:'QClaw（qclaw.qq.com）是 QQ 管家团队基于 OpenClaw 底座做的 AI 助手产品，内测结束后已全量开放。相比纯技术部署版更轻量，已集成常用 Skill 市场。',links:[{label:'🚀 立即打开',url:'https://qclaw.qq.com',icon:'🔧',primary:true},{label:'KM 龙虾图鉴',url:'https://km.woa.com/articles/show/655461',icon:'📖'}],tip:'💡 QClaw 最适合"想了解龙虾但还没时间搭建自己龙虾"的同学，现成能用，体验完整 Agent 工作流。'},{id:'codebuddy',cat:'c1a',icon:'💻',name:'CodeBuddy',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'腾讯 AI 编程 Agent，内嵌 VS Code，0 代码也能 Vibe Coding，快速搭建运营工具、数据看板。',fullDesc:'CodeBuddy 是腾讯 AI 编程助手，内嵌在 VS Code 中。不懂代码也能用：描述需求 → AI 自动写代码 → 自动部署验证。',links:[{label:'🚀 立即打开',url:'https://codebuddy.qq.com',icon:'💻',primary:true},{label:'KM AI Native 手册',url:'https://km.woa.com/articles/show/655726',icon:'📖'},{label:'KM Token 节省技巧',url:'https://km.woa.com/articles/show/651115',icon:'📖'}],tip:'💡 用 CodeBuddy 建运营工具时，先描述清楚"我要什么数据""展示成什么样"，越具体效果越好。'},{id:'box',cat:'c1a',icon:'📦',name:'Box AI',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'✨ 新',cls:'tag-new'}],desc:'腾讯内部 AI 工作台，多模型支持，操作简洁，适合快速完成文案生成、信息整理、方案起草等日常任务。',fullDesc:'Box AI（box-ai.woa.com）是腾讯内部 AI 工作台，支持多模型切换（混元/DeepSeek等），界面简洁清爽，上手零门槛。',links:[{label:'🚀 立即打开 Box',url:'https://box-ai.woa.com',icon:'📦',primary:true}],tip:'💡 Box AI 界面简洁，适合快速完成不需要复杂 Agent 的日常任务，轻量版龙虾好帮手。'},{id:'vedas-c1a',cat:'c1a',icon:'🧩',name:'Vedas Agent',tags:[{text:'🦞 龙虾系',cls:'tag-claw'},{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'腾讯内部多模态 AI Agent，不只是 PPT！连接 Skill 市场，2 分钟生成汇报/海报/运营方案。',fullDesc:'Vedas 是腾讯内部多模态智能 Agent 平台，基于 OpenClaw 底座构建。核心能力：AI PPT 生成、AI 海报/图文生成、Skill 市场调用、企微长连接。',links:[{label:'🚀 立即打开 Vedas',url:'https://ai.woa.com/#/chat/dialog',icon:'🧩',primary:true},{label:'KM Vedas × Skill × 企微',url:'https://km.woa.com/articles/show/654672',icon:'📖'},{label:'KM AI PPT 五大新功能',url:'https://km.woa.com/articles/show/654927',icon:'📖'},{label:'KM 运营海报 2 分钟',url:'https://km.woa.com/articles/show/655210',icon:'📖'}],tip:'💡 Vedas 不只是 PPT 工具！通过 Skill 市场扩展，可以接入数据、生成海报、推送企微，是真正的多功能 AI Agent。'},{id:'deepseek',cat:'c1b',icon:'🌊',name:'DeepSeek',tags:[{text:'免费',cls:'tag-free'},{text:'🔥 热门',cls:'tag-hot'}],desc:'国产顶级推理大模型，复杂分析、策划方案、长文本处理表现极优，Deep Think 模式质量媲美 o3。',fullDesc:'DeepSeek 是国产顶级推理模型，Deep Think（R1）模式下进行多步骤推理。适合做竞品深度分析、活动方案头脑风暴、长文档总结。免费额度充足，是目前综合性价比最高的对话模型之一。',links:[{label:'🚀 立即打开',url:'https://chat.deepseek.com',icon:'🌊',primary:true}],tip:'💡 复杂推理任务开启 DeepThink (R1) 模式，效果显著好于默认。'},{id:'manus',cat:'c1b',icon:'🤖',name:'Manus',tags:[{text:'🔥 热门',cls:'tag-hot'}],desc:'全球首款真正意义的 AI Agent，能自主完成复杂多步任务，从调研到执行全程无需人工干预。',fullDesc:'Manus 是 Monica 团队推出的自主 AI Agent，能像人一样操作浏览器、写代码、查资料、生成文件，把多步复杂任务从头做到尾。',links:[{label:'🚀 立即打开',url:'https://manus.im',icon:'🤖',primary:true}],tip:'💡 告诉 Manus 你要做什么（如"帮我整理近期竞品发布动态并生成报告"），它会自动搜索、筛选、整合，交付完整产出物。'},{id:'hunyuan',cat:'c1b',icon:'🌀',name:'腾讯混元',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯自研大语言模型，多模态能力全面，已集成腾讯文档、会议等产品，涉密内容优先使用。',fullDesc:'腾讯混元是司内基础大模型，已集成到腾讯文档 AI、腾讯会议 AI 小助手、Knot 等产品中。涉及腾讯内部业务信息时，优先使用混元等司内模型，保障数据安全合规。',links:[{label:'🚀 立即打开',url:'https://hunyuan.tencent.com',icon:'🌀',primary:true}],tip:'💡 【重要】涉及内部数据、商业策略等敏感信息时，必须使用混元等司内模型，不要发给外部 AI。'},{id:'doubao',cat:'c1b',icon:'🫘',name:'豆包',tags:[{text:'免费',cls:'tag-free'}],desc:'字节出品，文案生成、内容润色、创意头脑风暴样样擅长，移动端体验一流，随手可用。',fullDesc:'豆包是字节跳动推出的 AI 助手，适合快速生成文案初稿、润色内容、做创意头脑风暴。移动端 App 体验非常丝滑，通勤路上也能高效使用。',links:[{label:'🚀 立即打开',url:'https://www.doubao.com',icon:'🫘',primary:true}],tip:'💡 豆包有"学习"功能，可定制持久角色（如"游戏内容专家"），让每次对话都更精准有效。'},{id:'perplexity',cat:'c1b',icon:'🔭',name:'Perplexity',tags:[],desc:'AI 搜索引擎，每次回答都附带真实引用链接，竞品调研、行业趋势搜集效率翻倍。',fullDesc:'Perplexity 是 AI 搜索引擎，不同于普通大模型，每次回答都附带真实网页引用。非常适合做竞品信息速查、行业数据搜集、新闻事件溯源。',links:[{label:'🚀 立即打开',url:'https://www.perplexity.ai',icon:'🔭',primary:true}],tip:'💡 设置 Focus 模式：Academic 专搜论文，Social 搜社媒讨论，YouTube 专搜视频内容。'},{id:'paozi',cat:'c2',icon:'🦌',name:'狍子 AI',tags:[{text:'司内',cls:'tag-inner'},{text:'✨ 推荐',cls:'tag-new'},{text:'🔥 热门',cls:'tag-hot'}],desc:'腾讯内部 AI 知识管理工具，语义搜索准确，支持团队知识库挂载与 AI 问答。',fullDesc:'狍子 AI 是腾讯内部知识管理 AI 工具，主打语义化搜索和知识库问答。支持挂载多种格式文档，AI 理解文档内容后可进行问答对话。',links:[{label:'🚀 立即打开',url:'https://paozi.woa.com',icon:'🦌',primary:true}],tip:'💡 把日常整理的主播档案、活动复盘、竞品分析文档喂给狍子 AI，团队成员直接问答即可找到答案，省去翻文档的时间。'},{id:'lexiang',cat:'c2',icon:'📗',name:'乐享 AI 知识库',tags:[{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'腾讯内部企业知识库，支持 AI 语义检索、挂载 Agent 问答，团队第二大脑首选方案。',fullDesc:'腾讯乐享是司内企业知识管理平台，AI 化后支持自然语言问答。可上传 PDF、Word、Excel 等多种格式文档，配合 Knot Agent 使用效果最佳。',links:[{label:'🚀 立即打开',url:'https://lexiang.woa.com',icon:'📗',primary:true},{label:'KM 使用教程',url:'https://km.woa.com/articles/show/654100',icon:'📖'}],tip:'💡 定期把主播档案、活动复盘、竞品分析文档沉淀进乐享，让团队 AI 问答更精准，是"第二大脑"的最佳载体。'},{id:'ima',cat:'c2',icon:'🧠',name:'IMA 个人知识库',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯个人 AI 知识库，上传文件、网页、笔记，打造专属第二大脑，与龙虾联动效果极佳。',fullDesc:'IMA 是腾讯出品的个人知识管理工具，支持上传各类文档和网页收藏，AI 建立知识索引，随时通过自然语言检索。',links:[{label:'🚀 立即打开',url:'https://ima.woa.com',icon:'🧠',primary:true},{label:'KM 介绍文章',url:'https://km.woa.com/articles/show/615934',icon:'📖'}],tip:'💡 搭配浏览器插件使用，遇到好文章一键收藏到 IMA，自动 AI 摘要，积少成多成为强大知识库。'},{id:'iwiki',cat:'c2',icon:'📋',name:'iWiki',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯内部 Wiki 协作平台，团队知识沉淀、文档管理的标准工具，已集成 AI 辅助写作。',fullDesc:'iWiki 是腾讯内部 Wiki，团队知识沉淀的官方平台。支持树状文档结构、多人协作编辑，AI 辅助写作（续写、摘要）已内置。',links:[{label:'🚀 立即打开',url:'https://iwiki.woa.com',icon:'📋',primary:true},{label:'KM iWiki MCP 文章',url:'https://km.woa.com/articles/show/655732',icon:'📖'}],tip:'💡 iWiki 接入 MCP 后，在 CodeBuddy 里就可以直接操作 iWiki 文档，无需手动打开页面复制粘贴。'},{id:'txdocs-ppt',cat:'c3',subcat:'ppt',icon:'📑',name:'腾讯文档 AI',tags:[{text:'司内',cls:'tag-inner'}],desc:'一分钟生成专业 PPT，无需安装，AI 写作助手随时可用，与企微深度集成，多人协作无缝衔接。',fullDesc:'腾讯文档已内置 AI 能力：AI 写作助手（续写、改写、润色）、AI PPT 生成、AI 表格分析。与企微、TAPD 深度集成，多人实时协作无缝衔接。',links:[{label:'🚀 立即打开',url:'https://docs.qq.com',icon:'📑',primary:true}],tip:'💡 在腾讯文档里直接 @ AI 助手，可以做"帮我把这段话改成更正式的公告语气"等实时润色操作。'},{id:'gamma',cat:'c3',subcat:'ppt',icon:'✨',name:'Gamma',tags:[{text:'🔥 热门',cls:'tag-hot'}],desc:'国际热门 AI 演示工具，设计感极强，输入文字自动生成美观 PPT/网页，对外 Pitch 首选。',fullDesc:'Gamma 是设计感最强的 AI 演示工具，生成的 PPT 视觉效果远超其他工具。支持直接发布为网页，非常适合做 Pitch Deck、对外展示材料。',links:[{label:'🚀 立即打开',url:'https://gamma.app',icon:'✨',primary:true}],tip:'💡 Gamma 支持"从大纲生成"，建议先写好结构再导入，生成后导出 PPT 文件在本地精修。'},{id:'vedas-ppt',cat:'c3',subcat:'ppt',icon:'🎴',name:'Vedas',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯内部 AI 演示工具，快速生成高质量 PPT，支持模板定制与品牌风格统一，汇报提案必备。',fullDesc:'Vedas 是腾讯内部研发的 AI PPT 生成工具，支持根据主题或大纲一键生成演示文稿，内置多种商务/技术汇报模板，可定制品牌风格。',links:[{label:'🚀 立即打开',url:'https://vedas.woa.com',icon:'🎴',primary:true}],tip:'💡 Vedas 为司内工具，访问需要企业内网环境，建议搭配公司模板使用效果更佳。'},{id:'seedance',cat:'c3',subcat:'video',icon:'🎬',name:'即梦 AI 视频',tags:[{text:'🔥 热门',cls:'tag-hot'}],desc:'字节旗下顶级 AI 视频生成，文/图生视频业界领先，游戏宣传片、创意素材制作首选。',fullDesc:'即梦（Seedance 引擎）是字节旗下 AI 视频生成工具，支持文生视频（最长 10 秒）、图生视频、运镜控制。',links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🎬',primary:true},{label:'KM 视频生成测评',url:'https://km.woa.com/articles/show/653990',icon:'📖'}],tip:'💡 先用 Midjourney 生成高质量参考图，再导入即梦做图生视频，效果比纯文生视频更可控精准。'},{id:'kling',cat:'c3',subcat:'video',icon:'🎥',name:'可灵 AI',tags:[{text:'🔥 热门',cls:'tag-hot'}],desc:'快手出品，文生/图生视频、AI 写真均可，物理效果真实，首尾帧控制是独家亮点。',fullDesc:'可灵 AI 与即梦并列国内最强 AI 视频生成平台。物理效果模拟逼真，"首尾帧控制"功能精确控制视频开始和结束画面，适合做循环视频素材。',links:[{label:'🚀 立即打开',url:'https://klingai.com',icon:'🎥',primary:true}],tip:'💡 可灵"首尾帧控制"非常强大，可精确控制视频首末画面，适合制作开屏动画、循环素材。'},{id:'midjourney',cat:'c3',subcat:'image',icon:'🖼️',name:'Midjourney',tags:[{text:'🔥 热门',cls:'tag-hot'}],desc:'全球最强 AI 图像生成，艺术风格多样，封面图、海报、游戏概念图制作的行业标准工具。',fullDesc:'Midjourney V6 目前仍是 AI 图像质量天花板，尤其是艺术风格、游戏概念图、人物写真。操作在 Discord 内进行，支持中文 Prompt。',links:[{label:'🚀 立即打开',url:'https://www.midjourney.com',icon:'🖼️',primary:true}],tip:'💡 Prompt 公式：[主体] + [风格] + [光影] + [构图] + --ar 16:9 --v 6 --q 2，是出图质量的基础保障。'},{id:'jimeng-image',cat:'c3',subcat:'image',icon:'🌅',name:'即梦 AI 作图',tags:[{text:'免费',cls:'tag-free'}],desc:'字节旗下 AI 图片生成，中文 Prompt 友好，游戏风/国风/二次元效果出色，国内访问无障碍。',fullDesc:'即梦 AI 图片生成工具，中文 Prompt 理解能力强、国内访问稳定快速、免费额度充足。',links:[{label:'🚀 立即打开',url:'https://jimeng.jianying.com',icon:'🌅',primary:true}],tip:'💡 即梦"参考图风格"功能：上传一张风格参考图，后续生成都保持类似风格，适合制作系列配图素材。'},{id:'napkin',cat:'c3',subcat:'html',icon:'🗒️',name:'Napkin AI',tags:[{text:'✨ 新',cls:'tag-new'}],desc:'文字转信息图神器，粘贴一段文字自动生成精美图表/流程图，汇报材料可视化利器。',fullDesc:'Napkin AI：粘贴任意文字，AI 自动识别逻辑关系并生成信息图、流程图、对比图等。无需设计技能，5 秒出图。',links:[{label:'🚀 立即打开',url:'https://www.napkin.ai',icon:'🗒️',primary:true}],tip:'💡 把 OKR 或项目复盘文字丢给 Napkin，直接生成可嵌入 PPT 的信息图，省去设计排版时间。'},{id:'qpilot',cat:'c3',subcat:'html',icon:'🚁',name:'QPilot',tags:[{text:'司内',cls:'tag-inner'},{text:'✨ 新',cls:'tag-new'}],desc:'腾讯 AI 代码生成平台，一句话生成可运行网页/工具/小应用，运营同学零代码快速出原型。',fullDesc:'QPilot（qpilot.woa.com）是腾讯内部 AI 编程平台，支持用自然语言描述需求，直接生成可运行的网页、数据分析脚本、可视化图表等。',links:[{label:'🚀 立即打开',url:'https://qpilot.woa.com',icon:'🚁',primary:true}],tip:'💡 描述你要什么功能（如"一个能上传Excel并生成柱状图的网页"），QPilot 自动生成代码并预览，直接可用。'},{id:'with-ai',cat:'c3',subcat:'html',icon:'🌐',name:'With',tags:[{text:'司内',cls:'tag-inner'},{text:'✨ 新',cls:'tag-new'}],desc:'腾讯 AI 网页/HTML 快速创造工具，输入需求直接生成可交互网页，无需代码，适合快速制作活动页。',fullDesc:'With（with.woa.com）是腾讯出品的 AI 网页创造工具，输入描述即可生成可交互的 HTML 网页。不需要任何编程基础，特别适合运营同学快速制作活动落地页原型。',links:[{label:'🚀 立即打开 With',url:'https://with.woa.com',icon:'🌐',primary:true}],tip:'💡 With 最适合"我需要一个简单的活动报名页 / 数据展示页"这类需求，说清楚要什么，30 秒出可交互原型。'},{id:'txmeeting',cat:'c4',icon:'📹',name:'腾讯会议 AI',tags:[{text:'司内',cls:'tag-inner'},{text:'🔥 热门',cls:'tag-hot'}],desc:'内置 AI 小助手，会议全程实时转写纪要，自动提取待办和关键决策，开完会纪要即时生成。',fullDesc:'腾讯会议 AI 小助手：实时语音转文字（精度高）、自动生成会议摘要和待办事项、识别发言人、支持会后重听和搜索。',links:[{label:'🚀 立即打开',url:'https://meeting.tencent.com',icon:'📹',primary:true}],tip:'💡 会议结束后，在"AI 纪要"点"精炼摘要"，一键复制到腾讯文档发全体，全流程 2 分钟搞定。'},{id:'tongyi',cat:'c4',icon:'👂',name:'通义听悟',tags:[{text:'免费',cls:'tag-free'}],desc:'阿里出品的音视频转文字工具，竞品发布会/访谈录音一键转写，说话人识别精准，免费额度够用。',fullDesc:'通义听悟特点：说话人识别准确（可区分多人）、支持各类音视频格式、免费每月 10 小时额度。',links:[{label:'🚀 立即打开',url:'https://tingwu.aliyun.com',icon:'👂',primary:true}],tip:'💡 上传竞品发布会完整视频，转写后再问 AI "提炼核心功能更新和运营重点"，效率极高。'},{id:'fengxun',cat:'c4',icon:'📡',name:'风讯 Claw',tags:[{text:'司内',cls:'tag-inner'}],desc:'游戏舆情监控专用工具，实时追踪各平台热点数据，AI 分析竞品报告，内容发行必备。',fullDesc:'风讯 Claw 是腾讯内部游戏舆情监控平台，可追踪微博、抖音、B 站、贴吧等各平台游戏相关讨论。支持 AI 生成竞品分析报告，关键词订阅后热度异常自动推送预警。',links:[{label:'📩 申请开通（联系运营配置）',url:'https://km.woa.com/articles/show/655517',icon:'📡',primary:true}],tip:'💡 设置关键词订阅后，风讯在热度异常时自动推送预警，不需要每天手动查看，减少漏掉爆点风险。'},{id:'tapd',cat:'c4',icon:'📌',name:'TAPD',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯内部项目管理标准工具，需求/迭代/OKR 看板，AI 能力持续增强，项目推进的核心平台。',fullDesc:'TAPD（腾讯敏捷产品开发平台）支持需求管理、Sprint 迭代、Bug 追踪、OKR 看板、甘特图。',links:[{label:'🚀 立即打开',url:'https://tapd.woa.com',icon:'📌',primary:true}],tip:'💡 TAPD 支持自动化规则（任务状态变更自动发企微通知），减少手动同步信息的成本。'},{id:'txzh',cat:'c4',icon:'👤',name:'腾讯智影',tags:[{text:'司内',cls:'tag-inner'}],desc:'数字人播报、AI 配音、文字转视频，腾讯出品，批量生产标准化视频内容的专属工具。',fullDesc:'腾讯智影专注 AI 视频创作：数字人（可定制形象克隆）、AI 配音（多音色和方言）、文字转视频、智能去水印、视频翻译。',links:[{label:'🚀 立即打开',url:'https://zenvideo.qq.com',icon:'👤',primary:true}],tip:'💡 智影数字人可以克隆真实人像，适合制作需要"真人出镜"的游戏发布公告、版本更新介绍视频。'},{id:'isearch',cat:'c4',icon:'🔎',name:'iSearch 内网搜索',tags:[{text:'司内',cls:'tag-inner'}],desc:'腾讯内网智能搜索，整合 KM、iWiki 等内部资源，AI 语义搜索，找内部资料必用。',fullDesc:'iSearch 是腾讯内部统一搜索平台，整合 KM 文章、iWiki 文档、代码仓库等。支持 AI 语义搜索（不需要完全匹配关键词）。',links:[{label:'🚀 立即打开',url:'https://isearch.woa.com',icon:'🔎',primary:true}],tip:'💡 iSearch 支持在搜索结果中直接问 AI 总结，一步到位获得关于某个主题的内部最佳实践。'}];
+(function(){
+'use strict';
+const CATS=['c1a','c1b','c2','c3','c4'];
+let currentCat='all',searchQuery='';
+const counts={all:0};CATS.forEach(c=>counts[c]=0);
+TOOLS.forEach(t=>{counts[t.cat]++;counts.all++;});
+['all',...CATS].forEach(k=>{const el=document.getElementById('cnt-'+k);if(el)el.textContent=counts[k];});
+document.getElementById('navStat').textContent='收录 '+counts.all+' 个工具';
+function hl(text,q){if(!q)return text;return text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');}
+function buildCard(tool,q){
+const qMatch=!q||[tool.name,tool.desc,tool.fullDesc,...tool.tags.map(t=>t.text)].some(s=>s.toLowerCase().includes(q));
+if(!qMatch)return null;
+const tags=tool.tags.map(t=>`<span class="tag ${t.cls}">${t.text}</span>`).join('');
+return `<div class="tool-card" data-id="${tool.id}" role="button" tabindex="0"><div class="card-glow"></div><div class="card-top"><div class="card-icon-wrap">${tool.icon}</div><div class="card-head"><div class="card-name">${hl(tool.name,q)}</div><div class="card-tags">${tags}</div></div></div><div class="card-desc">${hl(tool.desc,q)}</div><div class="card-actions"><a class="card-btn btn-primary" href="${tool.links[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🚀 立即打开</a><button class="card-btn" onclick="event.stopPropagation();showModal('${tool.id}')">详情 →</button></div></div>`;}
+function render(){
+const q=searchQuery.toLowerCase().trim();let totalVisible=0;
+CATS.forEach(cat=>{
+const catMatch=currentCat==='all'||currentCat===cat;
+const filtered=TOOLS.filter(t=>{if(t.cat!==cat)return false;if(!catMatch)return false;if(!q)return true;return[t.name,t.desc,t.fullDesc,t.tip||'',...t.tags.map(x=>x.text)].some(s=>s.toLowerCase().includes(q));});
+const sec=document.getElementById('sec-'+cat);const grid=document.getElementById('grid-'+cat);const cnt=document.getElementById('scnt-'+cat);
+if(cat==='c3'){
+const allC3=TOOLS.filter(t=>{if(t.cat!=='c3')return false;if(!q)return true;return[t.name,t.desc,t.fullDesc,t.tip||'',...(t.tags||[]).map(x=>x.text)].some(s=>s.toLowerCase().includes(q));});
+if(!catMatch||allC3.length===0){sec.style.display='none';}else{sec.style.display='';renderC3Cols(q);totalVisible+=allC3.length;const cnt3=document.getElementById('scnt-c3');if(cnt3)cnt3.textContent=allC3.length+' 个';}
+}else{
+if(filtered.length===0){sec.style.display='none';}else{sec.style.display='';grid.innerHTML=filtered.map(t=>buildCard(t,q)).filter(Boolean).join('');cnt.textContent=filtered.length+' 个';totalVisible+=filtered.length;}
+}
+if(cat==='c1a'){const banner=document.getElementById('tokenBanner');if(banner)banner.style.display=(currentCat==='all'||currentCat==='c1a')&&filtered.length>0?'flex':'none';}
+});
+document.getElementById('emptyState').style.display=totalVisible===0?'block':'none';}
+function renderC3Cols(q){q=(q||'').toLowerCase().trim();const subcatMap={'ppt':'grid-c3-ppt','video':'grid-c3-video','image':'grid-c3-image','html':'grid-c3-html'};Object.values(subcatMap).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});TOOLS.filter(t=>{if(t.cat!=='c3')return false;if(!q)return true;return[t.name,t.desc,t.fullDesc,t.tip||'',...(t.tags||[]).map(x=>x.text)].some(s=>s.includes(q));}).forEach(t=>{const gridId=subcatMap[t.subcat]||'grid-c3-html';const el=document.getElementById(gridId);if(el)el.innerHTML+=buildCard(t,q);});}
+document.querySelectorAll('.cat-btn').forEach(btn=>{btn.addEventListener('click',()=>{currentCat=btn.dataset.cat;document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();if(currentCat!=='all'){const sec=document.getElementById('sec-'+currentCat);if(sec)setTimeout(()=>{window.scrollTo({top:sec.getBoundingClientRect().top+window.scrollY-120,behavior:'smooth'});},50);}else window.scrollTo({top:0,behavior:'smooth'});});});
+const searchInput=document.getElementById('searchInput');const searchClear=document.getElementById('searchClear');
+searchInput.addEventListener('input',()=>{searchQuery=searchInput.value;searchClear.style.display=searchQuery?'flex':'none';render();});
+searchClear.addEventListener('click',()=>{searchInput.value='';searchQuery='';searchClear.style.display='none';searchInput.focus();render();});
+const overlay=document.getElementById('modalOverlay');const modalClose=document.getElementById('modalClose');
+window.showModal=function(id){const tool=TOOLS.find(t=>t.id===id);if(!tool)return;const catCls=tool.cat;const iconEl=document.getElementById('modalIcon');iconEl.textContent=tool.icon;iconEl.className='modal-icon card-icon-wrap '+catCls;document.getElementById('modalName').textContent=tool.name;document.getElementById('modalTags').innerHTML=tool.tags.map(t=>`<span class="tag ${t.cls}">${t.text}</span>`).join('');document.getElementById('modalDesc').textContent=tool.fullDesc;document.getElementById('modalTips').innerHTML=tool.tip;document.getElementById('modalLinks').innerHTML=tool.links.map((l,i)=>`<a class="modal-link-item ${i===0?'primary':''}" href="${l.url}" target="_blank" rel="noopener"><div class="modal-link-icon">${l.icon}</div><div class="modal-link-text"><div class="modal-link-label">${l.label}</div><div class="modal-link-url">${l.url}</div></div><div class="modal-link-arrow">↗</div></a>`).join('');overlay.classList.add('open');document.body.style.overflow='hidden';};
+function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+modalClose.addEventListener('click',closeModal);overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.getElementById('content').addEventListener('click',e=>{const card=e.target.closest('.tool-card');if(card&&!e.target.closest('.card-btn')&&!e.target.closest('a'))showModal(card.dataset.id);});
+render();
+})();
+</script>
+</body>
+</html>
